@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  {% include 'partials/sidebar.html' %}
+
+  <section class="dashboard-content" style="padding: 20px;">
+    <div class="painel card shadow-sm rounded-lg p-3 mb-4 bg-white" style="font-size: 0.875rem;">
+      <h3 class="mb-3">📄 Meus Precatórios (Compra e Venda)</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-sm">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Tipo Registro</th>
+              <th>Data</th>
+              <th>Número</th>
+              <th>Tipo</th>
+              <th>Valor (R$)</th>
+              <th>Estado</th>
+              <th>Município</th>
+              <th>Telefone</th>
+              <th>Email</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in precatorios if p.usuario_id == current_user.id or p.comprador_id == current_user.id %}
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.tipo_entrada|capitalize }}</td>
+              <td>{{ p.data_cadastro.strftime('%d/%m/%Y') }}</td>
+              <td>{{ p.numero or '-' }}</td>
+              <td>{{ p.tipo }}</td>
+              <td>R$ {{ '%.2f' | format(p.valor) }}</td>
+              <td>{{ p.estado or '-' }}</td>
+              <td>{{ p.municipio or '-' }}</td>
+              <td>{{ p.telefone }}</td>
+              <td>{{ p.email }}</td>
+              <td>{{ p.status or 'Pendente' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="11" class="text-center text-muted">Nenhum precatório encontrado.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+<aside class="sidebar">
+  <ul>
+    <li><a href="{{ url_for('main.dashboard') }}" class="{% if request.endpoint == 'main.dashboard' %}active{% endif %}">Painel de Controle</a></li>
+    <li><a href="{{ url_for('main.vender_precatorio') }}" class="{% if request.endpoint == 'main.vender_precatorio' %}active{% endif %}">Vender</a></li>
+    <li><a href="{{ url_for('main.comprar_precatorio') }}" class="{% if request.endpoint == 'main.comprar_precatorio' %}active{% endif %}">Comprar</a></li>
+    <li><a href="{{ url_for('main.mensagem_admin') }}" class="{% if request.endpoint == 'main.mensagem_admin' %}active{% endif %}">Fale com o Admin</a></li>
+
+    {% if current_user.tipo == 'administrador' %}
+    <li><a href="{{ url_for('main.painel_admin') }}" class="{% if request.endpoint == 'main.painel_admin' %}active{% endif %}">Painel Admin</a></li>
+    {% endif %}
+  </ul>
+</aside>

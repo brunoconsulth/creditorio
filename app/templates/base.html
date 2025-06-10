@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}VendaCredito{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-container"> 
+    <nav class="topnav">
+      <ul>
+        {% if current_user.is_authenticated %}
+          <li>Olá, {{ current_user.nome.split(' ')[0] }}</li>
+          <li><a href="{{ url_for('auth.logout') }}" class="logout-btn">Sair</a></li>
+        {% else %}
+          <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+          <li><a href="{{ url_for('auth.cadastro') }}">Cadastrar</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+  <main class="container main-content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 VendaCredito. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  function maskCPF_CNPJ(value) {
+    value = value.replace(/\D/g, '');
+    if (value.length <= 11) {
+      value = value.replace(/(\d{3})(\d)/, '$1.$2')
+                   .replace(/(\d{3})(\d)/, '$1.$2')
+                   .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    } else {
+      value = value.replace(/^(\d{2})(\d)/, '$1.$2')
+                   .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+                   .replace(/\.(\d{3})(\d)/, '.$1/$2')
+                   .replace(/(\d{4})(\d)/, '$1-$2');
+    }
+    return value;
+  }
+  function maskPhone(value) {
+    value = value.replace(/\D/g, '');
+    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+    value = value.replace(/(\d{4,5})(\d{4})$/, '$1-$2');
+    return value;
+  }
+  const cpfInput = document.querySelector('#cpf_cnpj');
+  if (cpfInput) {
+    cpfInput.addEventListener('input', function () {
+      this.value = maskCPF_CNPJ(this.value);
+    });
+  }
+  const telInput = document.querySelector('#telefone');
+  if (telInput) {
+    telInput.addEventListener('input', function () {
+      this.value = maskPhone(this.value);
+    });
+  }
+});
+</script>
+</body>
+</html>

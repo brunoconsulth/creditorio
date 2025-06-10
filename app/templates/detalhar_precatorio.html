@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Detalhes do Precatório{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  {% include 'partials/sidebar.html' %}
+
+  <section class="dashboard-content py-4 px-3">
+    <div class="card shadow p-4 bg-white rounded-lg">
+      <h3 class="mb-4 text-primary">📄 Detalhes do Precatório</h3>
+
+      <dl class="row">
+        <dt class="col-sm-3">Tipo de Registro</dt>
+        <dd class="col-sm-9">{{ precatorio.tipo_entrada|capitalize }}</dd>
+
+        <dt class="col-sm-3">Data de Cadastro</dt>
+        <dd class="col-sm-9">{{ precatorio.data_cadastro.strftime('%d/%m/%Y') }}</dd>
+
+        <dt class="col-sm-3">Número</dt>
+        <dd class="col-sm-9">{{ precatorio.numero or '-' }}</dd>
+
+        <dt class="col-sm-3">Tipo</dt>
+        <dd class="col-sm-9">{{ precatorio.tipo }}</dd>
+
+        <dt class="col-sm-3">Valor</dt>
+        <dd class="col-sm-9">R$ {{ '%.2f' | format(precatorio.valor) }}</dd>
+
+        <dt class="col-sm-3">Estado</dt>
+        <dd class="col-sm-9">{{ precatorio.estado or '-' }}</dd>
+
+        <dt class="col-sm-3">Município</dt>
+        <dd class="col-sm-9">{{ precatorio.municipio or '-' }}</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">{{ precatorio.status or 'Pendente' }}</dd>
+
+        <dt class="col-sm-3">Usuário</dt>
+        <dd class="col-sm-9">{{ precatorio.usuario.nome if precatorio.usuario else precatorio.nome }}</dd>
+
+        <dt class="col-sm-3">Telefone</dt>
+        <dd class="col-sm-9">{{ precatorio.telefone }}</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">{{ precatorio.email }}</dd>
+      </dl>
+
+      <div class="mt-4">
+        <h5>📎 Documentos Enviados</h5>
+        {% if precatorio.documentos %}
+        <ul class="list-group list-group-flush">
+          {% for doc in precatorio.documentos %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <i class="bi bi-file-earmark"></i> {{ doc.nome_arquivo }}
+              <small class="text-muted">(Enviado por {{ doc.usuario.nome if doc.usuario else 'Anônimo' }})</small>
+            </span>
+            <a href="{{ url_for('main.download_documento', id=doc.id) }}" class="btn btn-sm btn-outline-primary">Baixar</a>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted">Nenhum documento enviado ainda.</p>
+        {% endif %}
+      </div>
+
+      <div class="mt-4">
+        <h5>📤 Enviar Documento</h5>
+        <form method="POST" action="{{ url_for('main.upload_documento', id=precatorio.id) }}" enctype="multipart/form-data">
+          <div class="mb-3">
+            <input type="file" name="documentos" accept=".pdf,.png,.jpg,.jpeg" multiple required class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+
+      <a href="{{ url_for('main.dashboard') if current_user.tipo != 'administrador' else url_for('main.painel_admin') }}" class="btn btn-outline-secondary mt-4">Voltar</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

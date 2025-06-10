@@ -1,0 +1,917 @@
+/*
+ * CSS Global e Componentes Reutilizáveis
+ * Este arquivo contém estilos base, utilitários e componentes que são usados em várias partes da aplicação.
+ */
+
+/* Estilos Base */
+body {
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f6f6f6;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Classes de Background para Páginas */
+.body-login-page {
+  background: linear-gradient(to right, #003366, #415A77);
+}
+
+.body-cadastro-page {
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Botões Gerais */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-vender {
+  background-color: #003366;
+  color: white;
+}
+
+.btn-comprar {
+  background-color: #ff6f61;
+  color: white;
+}
+
+.btn-chat {
+  background-color: #003366;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.btn-chat:hover {
+  background-color: #002244;
+}
+
+.btn-contato {
+  background-color: #004080;
+  color: white;
+}
+
+.btn-contato:hover {
+  background-color: #003366;
+}
+
+.btn-proposta {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-proposta:hover {
+  background-color: #218838;
+}
+
+.btn-aceitar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-aceitar:hover {
+  background-color: #218838;
+}
+
+.btn-recusar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-recusar:hover {
+  background-color: #c82333;
+}
+
+.btn-ver-mais,
+.btn-outline-primary {
+  background-color: transparent;
+  border: 1px solid #0d6efd;
+  color: #0d6efd;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.btn-ver-mais:hover,
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+/* Mensagens Flash */
+.flash {
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+.flash.success { background: #d4edda; color: #155724; }
+.flash.error { background: #f8d7da; color: #721c24; }
+
+/* Formulários */
+.formulario {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.formulario label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.formulario input,
+.formulario select,
+.formulario textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.formulario input:focus,
+.formulario select:focus,
+.formulario textarea:focus {
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 0 2px rgba(0,51,102,0.2);
+}
+
+.form-card {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.form-card h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #003366;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-card form .form-group input,
+.form-card form .form-group select,
+.form-card form .btn {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Cabeçalho do Site */
+.site-header {
+  background-color: #003366;
+  padding: 1.3rem 0;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.site-header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.site-header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+  float: right;
+}
+
+.site-header nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.topnav {
+  margin-left: auto;
+}
+
+.topnav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.topnav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Rodapé do Site */
+.site-footer {
+  background: #eee;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 2rem;
+}
+
+/* Conteúdo Principal */
+.main-content {
+  padding: 6rem 1rem 2rem; /* espaço extra no topo para compensar o header fixo */
+}
+
+/* Seção Hero */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  color: #003366;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Cards */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  flex: 1 1 45%;
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+.dashboard-content {
+  margin-left: 220px;
+  padding: 2rem;
+  flex: 1;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #1B263B;
+  color: #E0E6ED;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  border-right: 1px solid #27394D;
+}
+
+.sidebar .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #E0E6ED;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sidebar li {
+  margin: 0.5rem 0;
+}
+
+.sidebar a {
+  color: #E0E6ED;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  display: block;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background-color: #415A77;
+}
+
+/* Chat */
+.chat-box {
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.chat-msg {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.chat-msg.sent {
+  justify-content: flex-end;
+}
+
+.chat-msg.received {
+  justify-content: flex-start;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  background-color: #e0e0e0;
+  padding: 0.75rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+
+.chat-msg.sent .chat-bubble {
+  background-color: #003366;
+  color: white;
+}
+
+.chat-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.chat-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+/* Conversas */
+.conversas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.conversa-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: background 0.2s;
+}
+
+.conversa-item:hover {
+  background: #f9f9f9;
+}
+
+.conversa-avatar {
+  flex-shrink: 0;
+  background: #003366;
+  color: #fff;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.conversa-detalhes {
+  flex: 1;
+}
+
+.conversa-meta {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.conversa-meta .badge {
+  color: #ff6f61;
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+}
+
+.lista-conversas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-conversa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.info-conversa {
+  display: flex;
+  flex-direction: column;
+}
+
+.email-usuario {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.dashboard-container {
+  min-height: 100%;
+  display: flex;
+}
+
+/* Modais */
+.modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #003366;
+  font-size: 1.5rem;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.modal-content input[type="number"],
+.modal-content textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.modal-content button {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #003366;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #00509e;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.modal-content .close:hover {
+  color: #333;
+}
+
+/* Estilos para status */
+.status-aceita {
+  color: green;
+  font-weight: bold;
+}
+
+.status-recusada {
+  color: red;
+  font-weight: bold;
+}
+
+/* Painel e Tabela */
+.painel {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.painel h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem; /* Fonte um pouco menor para mais dados */
+  border: 1px solid #e0e0e0; /* Borda geral mais suave */
+  border-radius: 8px; /* Borda arredondada para a tabela */
+  overflow: hidden; /* Garante que as bordas arredondadas funcionem */
+}
+
+.table thead {
+  background-color: #f0f2f5; /* Fundo mais claro para o cabeçalho */
+  text-transform: uppercase;
+  font-weight: 600; /* Peso da fonte ajustado */
+  color: #555; /* Cor do texto mais suave */
+}
+
+.table th, .table td {
+  padding: 12px 15px; /* Padding ajustado */
+  border: 1px solid #e9ecef; /* Bordas das células mais claras */
+  vertical-align: middle;
+  text-align: left; /* Alinhamento padrão à esquerda */
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 20px; /* Padding extra para a primeira coluna */
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding-right: 20px; /* Padding extra para a última coluna */
+}
+
+.table tbody tr:hover {
+  background-color: #eef2f7; /* Efeito hover mais sutil */
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #fdfdfd; /* Listras zebradas para melhor legibilidade */
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.table .text-center {
+  text-align: center;
+}
+
+.table .text-muted {
+  color: #888;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .site-header nav ul {
+    float: none;
+    justify-content: center;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+
+  .table thead {
+    display: none; /* Esconde o cabeçalho da tabela em telas pequenas */
+  }
+
+  .table, .table tbody, .table tr, .table td {
+    display: block; /* Faz com que as células se comportem como blocos */
+    width: 100%;
+  }
+
+  .table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .table td {
+    text-align: right; /* Alinha o conteúdo da célula à direita */
+    padding-left: 50%; /* Espaço para o pseudo-elemento */
+    position: relative;
+  }
+
+  .table td::before {
+    content: attr(data-label); /* Usa o atributo data-label para o rótulo */
+    position: absolute;
+    left: 15px;
+    width: calc(50% - 30px);
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+/*
+ * Estilos da Tela de Login e Cadastro
+ * Estes estilos são específicos para as páginas de login e cadastro.
+ */
+.login-modern-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Removido background daqui para ser controlado por classes no body */
+}
+
+.login-modern-card {
+  background-color: #ffffff;
+  padding: 2.5rem 3rem; /* Aumentado o padding para um visual mais espaçoso */
+  border-radius: 12px; /* Borda mais arredondada */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* Sombra mais pronunciada e suave */
+  width: 100%;
+  max-width: 450px; /* Aumentado a largura máxima para acomodar mais campos */
+  text-align: center;
+  box-sizing: border-box; /* Garante que padding não aumente a largura total */
+}
+
+.login-modern-card h2 {
+  margin-bottom: 1.2rem;
+  color: #003366;
+  font-size: 2rem; /* Título um pouco maior */
+  font-weight: 700;
+  text-align: center;
+}
+
+.login-modern-card .subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.social-btn i {
+  margin-right: 0.5rem;
+}
+
+.social-btn.google {
+  background-color: #db4437;
+}
+
+.social-btn.google:hover {
+  background-color: #c23124;
+}
+
+.social-btn.facebook {
+  background-color: #4267b2;
+}
+
+.social-btn.facebook:hover {
+  background-color: #365899;
+}
+
+.social-btn.twitter {
+  background-color: #1da1f2;
+}
+
+.social-btn.twitter:hover {
+  background-color: #0c85d0;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #aaa;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #eee;
+}
+
+.divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.email-login input[type="text"],
+.email-login input[type="password"],
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="tel"] {
+  width: 100%;
+  padding: 0.85rem 1rem; /* Aumentado o padding para inputs */
+  margin-bottom: 1.2rem; /* Espaçamento maior entre os campos */
+  border-radius: 8px; /* Borda mais arredondada */
+  border: 1px solid #ddd; /* Borda mais suave */
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.email-login input[type="text"]:focus,
+.email-login input[type="password"]:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="tel"]:focus {
+  border-color: #0056b3; /* Cor de foco mais vibrante */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1); /* Sombra de foco mais suave */
+}
+
+.form-group label {
+  text-align: left;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.btn-email {
+  width: 100%;
+  padding: 0.85rem; /* Padding maior para o botão */
+  font-size: 1.1rem; /* Fonte maior para o botão */
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px; /* Borda mais arredondada */
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  font-weight: 700;
+  margin-top: 1rem; /* Espaçamento acima do botão */
+}
+
+.btn-email:hover {
+  background-color: #002244;
+  transform: translateY(-2px);
+}
+
+.footer-text {
+  text-align: center;
+  margin-top: 1.5rem; /* Espaçamento maior para o texto do rodapé */
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.footer-text a {
+  color: #003366;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer-text a:hover {
+  text-decoration: underline;
+}
+
+

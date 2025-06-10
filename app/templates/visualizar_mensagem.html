@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Visualizar Mensagem{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  {% include 'partials/sidebar.html' %}
+
+  <section class="dashboard-content py-4 px-3">
+    <div class="card shadow p-4 bg-white rounded-lg">
+      <h3 class="mb-4 text-primary">📨 Detalhes da Mensagem</h3>
+
+      <dl class="row">
+        <dt class="col-sm-3">Nome</dt>
+        <dd class="col-sm-9">{{ mensagem.nome }}</dd>
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">{{ mensagem.email }}</dd>
+        <dt class="col-sm-3">Telefone</dt>
+        <dd class="col-sm-9">{{ mensagem.telefone }}</dd>
+        <dt class="col-sm-3">Assunto</dt>
+        <dd class="col-sm-9">{{ mensagem.assunto }}</dd>
+        <dt class="col-sm-3">Mensagem</dt>
+        <dd class="col-sm-9">
+          <div class="p-3 border rounded bg-light">{{ mensagem.mensagem }}</div>
+        </dd>
+      </dl>
+
+      <a href="{{ url_for('main.painel_admin') }}" class="btn btn-outline-secondary mt-4">Voltar</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

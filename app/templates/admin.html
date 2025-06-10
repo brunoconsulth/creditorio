@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Painel Administrativo{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  {% include 'partials/sidebar.html' %}
+
+  <section class="dashboard-content" style="padding: 20px;">
+    <div class="painel card shadow-sm rounded-lg p-3 mb-4 bg-white" style="font-size: 0.875rem;">
+      <h3 class="mb-3">📄 Precatórios (Compra e Venda)</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-sm">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Tipo Registro</th>
+              <th>Data</th>
+              <th>Número</th>
+              <th>Tipo</th>
+              <th>Valor (R$)</th>
+              <th>Estado</th>
+              <th>Município</th>
+              <th>Usuário</th>
+              <th>Telefone</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in precatorios %}
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.tipo_entrada|capitalize }}</td>
+              <td>{{ p.data_cadastro.strftime('%d/%m/%Y') }}</td>
+              <td>{{ p.numero or '-' }}</td>
+              <td>{{ p.tipo }}</td>
+              <td>R$ {{ '%.2f' | format(p.valor) }}</td>
+              <td>{{ p.estado or '-' }}</td>
+              <td>{{ p.municipio or '-' }}</td>
+              <td>{{ p.usuario.nome if p.usuario else p.nome }}</td>
+              <td>{{ p.telefone }}</td>
+              <td>{{ p.email }}</td>
+              <td>
+                <form method="post" action="{{ url_for('admin.alterar_status_precatorio', id=p.id) }}">
+                  <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                    <option value="Pendente" {% if p.status == 'Pendente' %}selected{% endif %}>Pendente</option>
+                    <option value="Em Analise" {% if p.status == 'Em Analise' %}selected{% endif %}>Em Análise</option>
+                    <option value="Negociado" {% if p.status == 'Negociado' %}selected{% endif %}>Negociado</option>
+                    <option value="Finalizado" {% if p.status == 'Finalizado' %}selected{% endif %}>Finalizado</option>
+                  </select>
+                </form>
+              </td>
+              <td>
+                <a href="{{ url_for('main.detalhar_precatorio', id=p.id) }}" class="btn btn-sm btn-outline-secondary">Ver Detalhes</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="painel card shadow-sm rounded-lg p-3 bg-white" style="font-size: 0.875rem;">
+      <h3 class="mb-3">📬 Mensagens dos Usuários</h3>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-sm">
+          <thead class="table-light">
+            <tr>
+              <th>Data</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Assunto</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for m in mensagens %}
+            <tr>
+              <td>{{ m.data_envio.strftime('%d/%m/%Y %H:%M') }}</td>
+              <td>{{ m.nome }}</td>
+              <td>{{ m.email }}</td>
+              <td>{{ m.telefone }}</td>
+              <td>{{ m.assunto }}</td>
+              <td>
+                <a href="{{ url_for('admin.visualizar_mensagem', id=m.id) }}" class="btn btn-outline-primary btn-sm">Ver</a>
+              
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="6" class="text-center text-muted">Nenhuma mensagem recebida.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

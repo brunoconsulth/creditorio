@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Vender Precatório{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  {% include 'partials/sidebar.html' %}
+
+  <section class="dashboard-content">
+    <div class="form-card">
+      <h2>Cadastro de Precatório</h2>
+      <form method="POST">
+        <div class="form-group">
+          <label for="tipo">Tipo de Precatório</label>
+          <select name="tipo" id="tipo" required onchange="atualizarCampos()">
+            <option value="">Selecione...</option>
+            <option value="RPV">RPV</option>
+            <option value="Federal">Federal</option>
+            <option value="Estadual">Estadual</option>
+            <option value="Municipal">Municipal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" name="nome" value="{% if current_user.is_authenticated %}{{ current_user.nome }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %}>
+        </div>
+
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="text" name="telefone" value="{% if current_user.is_authenticated %}{{ current_user.telefone }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %}>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" value="{% if current_user.is_authenticated %}{{ current_user.email }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %}>
+        </div>
+
+        <div class="form-group" id="grupo-estado" style="display: none;">
+          <label>Estado</label>
+          <select id="estado" name="estado" onchange="carregarMunicipios()">
+            <option value="">Carregando estados...</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="grupo-municipio" style="display: none;">
+          <label>Município</label>
+          <select id="municipio" name="municipio">
+            <option value="">Selecione o estado primeiro</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Valor (R$)</label>
+          <input type="number" name="valor" step="0.01" required>
+        </div>
+
+        <button type="submit" class="btn btn-vender">Cadastrar Precatório</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<script>
+  function atualizarCampos() {
+    const tipo = document.getElementById('tipo').value;
+    const grupoEstado = document.getElementById('grupo-estado');
+    const grupoMunicipio = document.getElementById('grupo-municipio');
+
+    grupoEstado.style.display = ['Estadual', 'Municipal'].includes(tipo) ? 'block' : 'none';
+    grupoMunicipio.style.display = tipo === 'Municipal' ? 'block' : 'none';
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
+      .then(res => res.json())
+      .then(estados => {
+        const estadoSelect = document.getElementById('estado');
+        estadoSelect.innerHTML = '<option value="">Selecione o estado</option>';
+        estados.forEach(estado => {
+          const opt = document.createElement('option');
+          opt.value = estado.sigla;
+          opt.textContent = estado.nome;
+          estadoSelect.appendChild(opt);
+        });
+      });
+  });
+
+  function carregarMunicipios() {
+    const uf = document.getElementById('estado').value;
+    const municipioSelect = document.getElementById('municipio');
+    municipioSelect.innerHTML = '<option value="">Carregando municípios...</option>';
+
+    fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
+      .then(res => res.json())
+      .then(municipios => {
+        municipioSelect.innerHTML = '<option value="">Selecione o município</option>';
+        municipios.forEach(mun => {
+          const opt = document.createElement('option');
+          opt.value = mun.nome;
+          opt.textContent = mun.nome;
+          municipioSelect.appendChild(opt);
+        });
+      });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Fale com o Administrador{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+  {% include 'partials/sidebar.html' %}
+
+  <section class="dashboard-content">
+    <div class="form-card">
+      <h2>Envie uma Mensagem ao Administrador</h2>
+      <form method="POST">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" name="nome" value="{% if current_user.is_authenticated %}{{ current_user.nome }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %} required>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" value="{% if current_user.is_authenticated %}{{ current_user.email }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %} required>
+        </div>
+
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="text" name="telefone" value="{% if current_user.is_authenticated %}{{ current_user.telefone }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %} required>
+        </div>
+
+        <div class="form-group">
+          <label>Assunto</label>
+          <input type="text" name="assunto" required>
+        </div>
+
+        <div class="form-group">
+          <label>Mensagem</label>
+          <textarea name="mensagem" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-enviar">Enviar Mensagem</button>
+      </form>
+    </div>
+  </section>
+</div>
+{% endblock %}

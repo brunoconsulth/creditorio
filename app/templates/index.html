@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creditorio - Compre ou venda precatório com segurança e agilidade</title>
+    <meta name="description" content="Negocie precatório com segurança, rapidez e as melhores condições do mercado.">
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="static/css/normalize.css">
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="{{ url_for('main.home') }}">
+                    <img src="{{ url_for('static', filename='/img/logo.png') }}" alt="Creditorio" class="logo-img">
+                </a>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="menu-toggle" aria-label="Abrir menu">
+                    <span class="hamburger"></span>
+                </button>
+				
+				<ul class="nav-list">
+					<li><a href="#inicio">Início</a></li>
+					<li><a href="#sobre">Sobre</a></li>
+					<li><a href="#como-funciona">Como Funciona</a></li>
+					<li><a href="#tipos">Tipos de Precatórios</a></li>
+					<li><a href="#precatorios">Precatórios</a></li>
+					<li><a href="#faq">Perguntas Frequentes</a></li>
+					<li><a href="#contato">Contato</a></li>
+					<li><a href="{{ url_for('auth.login') }}">Entrar</a></li>
+				</ul>
+
+            </nav>
+            
+
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Negocie precatório com segurança e agilidade</h2>
+                <p>Receba seu dinheiro antes do que imagina, com as melhores condições do mercado e todo o suporte necessário.</p>
+                <div class="hero-buttons">
+					<a href="#contato" class="btn btn-primary">Quero comprar</a>
+					<a href="#contato" class="btn btn-primary">Quero vender</a>
+				</div>
+            </div>
+            <div class="hero-image">
+                <img src="static/img/hero-image.jpg" alt="Negociação de precatórios">
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Precatórios -->
+    <section class="about" id="sobre">
+        <div class="container">
+            <h2 class="section-title">O que são precatórios?</h2>
+            <div class="about-content">
+                <p>Precatórios são ordens de pagamento emitidas pelo Poder Judiciário para que órgãos públicos (União, Estados, Municípios) paguem dívidas decorrentes de processos judiciais nos quais foram condenados.</p>
+                <p>O problema é que esses pagamentos podem demorar anos para serem realizados, deixando muitas pessoas esperando por um dinheiro que é seu por direito.</p>
+                <p>É aí que entra a <strong>Créditorio</strong>: nós antecipamos o valor do seu precatório, permitindo que você receba seu dinheiro imediatamente, sem precisar esperar pelo pagamento do governo.</p>
+            </div>
+            <div class="about-alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>Atenção:</strong> Cuidado com golpes! Nunca faça depósitos para "liberar" seu precatório. A Creditorio NUNCA solicita pagamentos antecipados.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefícios/Diferenciais -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Nossos diferenciais</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3>Melhor avaliação do mercado</h3>
+                    <p>Oferecemos as melhores condições e o menor deságio do mercado para a antecipação do seu precatório.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Processo rápido e sem burocracia</h3>
+                    <p>Todo o processo é digital e desburocratizado. Você pode fazer tudo sem sair de casa.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Segurança total nas transações</h3>
+                    <p>Utilizamos tecnologia blockchain para registrar os contratos, garantindo total segurança e transparência.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Equipe especializada</h3>
+                    <p>Contamos com uma equipe de especialistas com mais de 10 anos de experiência no mercado de precatórios.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section class="how-it-works" id="como-funciona">
+        <div class="container">
+            <h2 class="section-title">Como funciona</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Consulta</h3>
+                    <p>Envie suas informações pessoais e do seu precatório para uma consulta rápida da viabilidade de negociação.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>Oferta</h3>
+                    <p>Receba uma oferta para vender o seu precatório com as melhores condições do mercado.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Análise</h3>
+                    <p>Nossa equipe jurídica faz uma análise aprofundada para entender as condições atuais do seu precatório.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Pagamento</h3>
+                    <p>Após os trâmites legais, o dinheiro é depositado na sua conta em até 5 dias úteis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tipos de Precatórios -->
+    <section class="types" id="tipos">
+        <div class="container">
+            <h2 class="section-title">Tipos de precatórios que negociamos</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <h3>Precatórios Federais</h3>
+                    <p>Dívidas da União, incluindo INSS, autarquias e empresas públicas federais. Geralmente possuem maior previsibilidade de pagamento.</p>
+                    <a href="#contato" class="btn btn-secondary">Saiba mais</a>
+                </div>
+                <div class="type-card">
+                    <h3>Precatórios Estaduais</h3>
+                    <p>Dívidas dos estados e suas autarquias. O prazo de pagamento varia conforme o estado e sua situação fiscal.</p>
+                    <a href="#contato" class="btn btn-secondary">Saiba mais</a>
+                </div>
+                <div class="type-card">
+                    <h3>Precatórios Municipais</h3>
+                    <p>Dívidas dos municípios e suas autarquias. Avaliamos caso a caso conforme a situação fiscal do município.</p>
+                    <a href="#contato" class="btn btn-secondary">Saiba mais</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Perguntas Frequentes -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Perguntas frequentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Como funciona o processo de venda de precatórios?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nosso processo é desburocratizado:</p>
+                        <ol>
+                            <li>Preencha o formulário com seus dados pessoais e os dados do precatório que deseja vender.</li>
+                            <li>Nossa equipe avaliará seu precatório e fará uma oferta competitiva.</li>
+                            <li>Caso aceite a oferta, seguiremos para o processo de cessão do crédito.</li>
+                            <li>Registramos o contrato de cessão no Blockchain do Ethereum, garantindo segurança sem precisar ir ao cartório.</li>
+                            <li>O dinheiro é depositado em sua conta em até 5 dias úteis.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Qual o deságio na venda de um precatório?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>O deságio pode variar de acordo com as características do seu precatório, por isso é importante que seja efetuada a avaliação da documentação a priori. Os deságios variam de 20% a 40%, dependendo do tipo de precatório, prazo estimado de pagamento e outros fatores.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Vale a pena vender meu precatório?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A venda do precatório passa sempre por uma necessidade de dinheiro no momento atual. Na maioria dos casos, vender não é uma opção mas uma necessidade. Conosco você possui uma oportunidade de conseguir um maior valor pelo seu precatório, com transparência e segurança.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quais documentos são necessários?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Para iniciar o processo, precisamos de:</p>
+                        <ul>
+                            <li>Documentos pessoais (RG, CPF, comprovante de residência)</li>
+                            <li>Certidão do precatório</li>
+                            <li>Documentos do processo judicial</li>
+                            <li>Dados bancários para recebimento</li>
+                        </ul>
+                        <p>Durante a análise, podemos solicitar documentos adicionais específicos para o seu caso.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quanto tempo leva todo o processo?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>O processo completo, desde o primeiro contato até o pagamento, geralmente leva de 7 a 15 dias, dependendo da complexidade do caso e da agilidade na apresentação dos documentos necessários.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+	<!-- Tabela de Precatórios Disponíveis -->
+	<section class="precatorios-section">
+	  <div class="container">
+		<h2 class="section-title">Precatórios Disponíveis para Compra</h2>
+		<div class="precatorios-table-wrapper">
+		  <table class="precatorios-table">
+			<thead>
+			  <tr>
+				<th>Data</th>
+				<th>Tipo</th>
+				<th>Valor (R$)</th>
+				<th>Estado</th>
+				<th>Município</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  {% for p in precatorios %}
+			  <tr>
+				<td>{{ p.data_cadastro.strftime('%d/%m/%Y') }}</td>
+				<td>{{ p.tipo }}</td>
+				<td>{{ '%.2f'|format(p.valor) }}</td>
+				<td>{{ p.estado }}</td>
+				<td>{{ p.municipio }}</td>
+			  </tr>
+			  {% else %}
+			  <tr>
+				<td colspan="5">Nenhum precatório disponível no momento.</td>
+			  </tr>
+			  {% endfor %}
+			</tbody>
+		  </table>
+		</div>
+	  </div>
+	</section>
+
+    <!-- Formulário de Contato -->
+<section class="contact" id="contato">
+    <div class="container">
+        <h2 class="section-title">Entre em contato</h2>
+        <div class="contact-wrapper">
+            <div class="contact-info-block">
+                <h3>Preencha o formulário para receber uma avaliação gratuita do seu precatório</h3>
+                <p>Nossos especialistas entrarão em contato em até 24h para apresentar as melhores condições para o seu caso.</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4>Telefone</h4>
+                            <p>0800-006-1158</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p>(47) 99999-9999</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>E-mail</h4>
+                            <p>contato@peixoto.com.br</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-block">
+
+
+                <form id="contact-form" class="contact-form" method="POST" action="{{ url_for('main.receber_formulario') }}">
+                    <input type="hidden" name="origem" value="form-home">
+
+                    <!-- Tipo de Precatório -->
+                    <div class="form-group">
+                        <label for="precatory-type">Tipo de Precatório</label>
+                        <select id="precatory-type" name="precatory-type" required>
+                            <option value="">Selecione</option>
+                            <option value="federal">Federal</option>
+                            <option value="estadual">Estadual</option>
+                            <option value="municipal">Municipal</option>
+                            <option value="rpv">RPV</option>
+                            <option value="outro">Outro / Não sei</option>
+                        </select>
+                    </div>
+
+                    <!-- Finalidade -->
+                    <div class="form-group">
+                        <label for="acao">Você deseja:</label>
+                        <select id="acao" name="acao" required>
+                            <option value="">Selecione</option>
+                            <option value="comprar">Comprar</option>
+                            <option value="vender">Vender</option>
+                        </select>
+                    </div>
+
+                    <!-- CPF ou CNPJ -->
+                    <div class="form-group">
+                        <label for="cpf_cnpj">CPF ou CNPJ</label>
+                        <input type="text" id="cpf_cnpj" name="cpf_cnpj" class="mask-doc" placeholder="Digite seu CPF ou CNPJ" required>
+                    </div>
+
+                    <!-- Nome -->
+                    <div class="form-group">
+                        <label for="name">Nome completo</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <!-- E-mail -->
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" class="validate-email" required>
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="form-group">
+                        <label for="phone">Telefone</label>
+                        <input type="tel" id="phone" name="phone" class="mask-phone" required>
+                    </div>
+
+                    <!-- Estado -->
+                    <div class="form-group" id="estado-group" style="display: none;">
+                        <label for="estado">Estado</label>
+                        <select id="estado" name="estado">
+                            <option value="">Carregando estados...</option>
+                        </select>
+                    </div>
+
+                    <!-- Município -->
+                    <div class="form-group" id="municipio-group" style="display: none;">
+                        <label for="municipio">Município</label>
+                        <select id="municipio" name="municipio">
+                            <option value="">Selecione um estado primeiro</option>
+                        </select>
+                    </div>
+
+                    <!-- Valor -->
+                    <div class="form-group">
+                        <label for="value">Valor aproximado</label>
+                        <input type="text" id="value" name="value" class="mask-money" placeholder="R$" required>
+                    </div>
+
+                    <!-- Mensagem -->
+                    <div class="form-group">
+                        <label for="message">Mensagem (opcional)</label>
+                        <textarea id="message" name="message" rows="4"></textarea>
+                    </div>
+
+                    <!-- Política -->
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">Concordo com a <a href="#">Política de Privacidade</a> e os <a href="#">Termos de Uso</a></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <h2>Creditorio</span></h2>
+                    <p>Negocie seu precatório com segurança e agilidade</p>
+                </div>
+                <div class="footer-nav">
+                    <h3>Links rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#como-funciona">Como Funciona</a></li>
+                        <li><a href="#tipos">Tipos de Precatórios</a></li>
+                        <li><a href="#faq">Perguntas Frequentes</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-map-marker-alt"></i>R. Xavantes, 54 - Atiradores, Joinville - SC</p>
+                    <p><i class="fas fa-phone-alt"></i>0800-006-1158</p>
+                    <p><i class="fas fa-envelope"></i> contato@peixoto.com.br</p>
+                </div>
+                <div class="footer-social">
+                    <h3>Redes sociais</h3>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Termos de Uso</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 Creditorio. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+	<script src="{{ url_for('static', filename='/js/main.js') }}"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+    // Elementos principais
+    const estadoSelect = document.getElementById("estado");
+    const municipioSelect = document.getElementById("municipio");
+    const tipoSelect = document.getElementById("precatory-type");
+    const estadoGroup = document.getElementById("estado-group");
+    const municipioGroup = document.getElementById("municipio-group");
+
+    // === API IBGE: Carregar estados ===
+    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
+        .then(res => res.json())
+        .then(estados => {
+            estadoSelect.innerHTML = '<option value="">Selecione o estado</option>';
+            estados.forEach(estado => {
+                const opt = document.createElement("option");
+                opt.value = estado.sigla;
+                opt.textContent = `${estado.nome} (${estado.sigla})`;
+                estadoSelect.appendChild(opt);
+            });
+        });
+
+    // === Mostrar/ocultar campos baseado no tipo ===
+    tipoSelect.addEventListener("change", function () {
+        const tipo = this.value;
+        estadoGroup.style.display = (tipo === "estadual" || tipo === "municipal") ? "block" : "none";
+        municipioGroup.style.display = (tipo === "municipal") ? "block" : "none";
+    });
+
+    // === API IBGE: Carregar municípios ===
+    estadoSelect.addEventListener("change", function () {
+        const uf = this.value;
+        municipioSelect.innerHTML = '<option value="">Carregando municípios...</option>';
+        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
+            .then(res => res.json())
+            .then(municipios => {
+                municipioSelect.innerHTML = '<option value="">Selecione o município</option>';
+                municipios.forEach(m => {
+                    const opt = document.createElement("option");
+                    opt.value = m.nome;
+                    opt.textContent = m.nome;
+                    municipioSelect.appendChild(opt);
+                });
+            });
+    });
+
+    // === Função genérica para aplicar máscaras ===
+    function maskInput(input, formatter) {
+        input?.addEventListener("input", function () {
+            this.value = formatter(this.value);
+        });
+    }
+
+    // === Máscaras ===
+    const formatPhone = v => v.replace(/\D/g, '').slice(0,11)
+        .replace(/^(\d{2})(\d)/g, "($1) $2")
+        .replace(/(\d{5})(\d)/, "$1-$2");
+
+    const formatMoney = v => {
+        v = v.replace(/\D/g, '');
+        v = (v / 100).toFixed(2).replace('.', ',');
+        return 'R$ ' + v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+    };
+
+    const formatDoc = v => {
+        v = v.replace(/\D/g, '');
+        if (v.length <= 11) {
+            return v.slice(0,11)
+                .replace(/(\d{3})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        } else {
+            return v.slice(0,14)
+                .replace(/^(\d{2})(\d)/, "$1.$2")
+                .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+                .replace(/\.(\d{3})(\d)/, ".$1/$2")
+                .replace(/(\d{4})(\d)/, "$1-$2");
+        }
+    };
+
+    const formatDate = v => v.replace(/\D/g, '').slice(0,8)
+        .replace(/(\d{2})(\d)/, "$1/$2")
+        .replace(/(\d{2})(\d)/, "$1/$2");
+
+    // === Aplicar máscaras nos campos ===
+    maskInput(document.querySelector(".mask-phone"), formatPhone);
+    maskInput(document.querySelector(".mask-money"), formatMoney);
+    maskInput(document.querySelector(".mask-doc"), formatDoc);
+    maskInput(document.querySelector(".mask-date"), formatDate);
+
+    // === Validação simples de e-mail ===
+    const emailInput = document.querySelector(".validate-email");
+    emailInput?.addEventListener("blur", function () {
+        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
+        if (!isValid && this.value !== '') {
+            alert("E-mail inválido! Verifique o formato.");
+            this.focus();
+        }
+    });
+});
+</script>
+</body>
+</html>
+
