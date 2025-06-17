@@ -1,13 +1,22 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app, send_from_directory
 from flask_login import login_required, current_user
 from . import db
-from .models import Precatorio, Usuario, Mensagem, MensagemPublica, LogAcao, Proposta
+from .models import Precatorio, Usuario, Mensagem, MensagemPublica, LogAcao, Proposta, Documento
 from datetime import datetime
 import smtplib
 from email.message import EmailMessage
+import os
+import uuid
+from werkzeug.utils import secure_filename
+from sqlalchemy.exc import SQLAlchemyError
 
 main_bp = Blueprint('main', __name__)
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
+
+# Função auxiliar para verificar extensões permitidas
+def allowed_file(filename):
+    allowed_extensions = current_app.config.get('ALLOWED_EXTENSIONS', {'pdf', 'png', 'jpg', 'jpeg', 'doc', 'docx'})
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
 @main_bp.route('/')
 def home():
@@ -28,11 +37,20 @@ def vender_precatorio():
         nome = current_user.nome if current_user.is_authenticated else request.form.get('nome')
         telefone = current_user.telefone if current_user.is_authenticated else request.form.get('telefone')
         email = current_user.email if current_user.is_authenticated else request.form.get('email')
-        valor = request.form.get('valor')
+        cpf_cnpj = current_user.cpf_cnpj if current_user.is_authenticated else request.form.get('cpf_cnpj')
+
+        valor_str = request.form.get('valor', '').replace('R$', '').replace('.', '').replace(',', '.').strip()
+        try:
+            valor = float(valor_str)
+        except ValueError:
+            flash("Valor inválido.", "danger")
+            return redirect(url_for('main.vender_precatorio'))
+
         estado = request.form.get('estado') if tipo in ['Estadual', 'Municipal'] else None
         municipio = request.form.get('municipio') if tipo == 'Municipal' else None
+        mensagem = request.form.get('mensagem')
 
-        if not all([tipo, nome, telefone, email, valor]):
+        if not all([tipo, nome, telefone, email, valor_str, cpf_cnpj]):
             flash('Preencha todos os campos obrigatórios.', 'danger')
             return redirect(url_for('main.vender_precatorio'))
 
@@ -40,6 +58,7 @@ def vender_precatorio():
             tipo=tipo,
             tipo_entrada='venda',
             nome=nome,
+            cpf_cnpj=cpf_cnpj,
             telefone=telefone,
             email=email,
             valor=valor,
@@ -181,9 +200,8 @@ def alterar_status_precatorio(id):
 @login_required
 def detalhar_precatorio(id):
     precatorio = Precatorio.query.get_or_404(id)
-    return render_template('detalhar_precatorio.html', precatorio=precatorio)
-
-
+    documentos = Documento.query.filter_by(precatorio_id=id).all()
+    return render_template('detalhar_precatorio.html', precatorio=precatorio, documentos=documentos)
 
 @admin_bp.route('/mensagem/<int:id>')
 @login_required
@@ -191,70 +209,140 @@ def visualizar_mensagem(id):
     mensagem = MensagemPublica.query.get_or_404(id)
     return render_template('visualizar_mensagem.html', mensagem=mensagem)
 
-
-
-import os
-from werkzeug.utils import secure_filename
-from flask import send_from_directory
-
-UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
-ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 @main_bp.route('/upload_documento/<int:id>', methods=['POST'])
 @login_required
 def upload_documento(id):
-    precatorio = Precatorio.query.get_or_404(id)
+    """Rota para upload de documentos com tratamento completo de erros"""
+    try:
+        # Configuração do diretório de upload
+        UPLOAD_FOLDER = os.path.abspath(current_app.config['UPLOAD_FOLDER'])
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-    if 'documentos' not in request.files:
-        flash("Nenhum arquivo enviado.", "warning")
-        return redirect(url_for('main.detalhar_precatorio', id=id))
+        # Verificação do precatório e permissões
+        precatorio = Precatorio.query.get_or_404(id)
+        if not (current_user.id == precatorio.usuario_id or current_user.tipo == 'administrador'):
+            flash("Acesso não autorizado.", "danger")
+            return redirect(url_for('main.dashboard'))
 
-    arquivos = request.files.getlist('documentos')
+        # Validação dos arquivos recebidos
+        if 'documentos' not in request.files:
+            flash("Nenhum arquivo selecionado.", "warning")
+            return redirect(url_for('main.detalhar_precatorio', id=id))
 
-    for arquivo in arquivos:
-        if arquivo and allowed_file(arquivo.filename):
-            if len(arquivo.read()) > 10 * 1024 * 1024:
-                flash("Arquivo excede o limite de 10MB.", "danger")
-                return redirect(url_for('main.detalhar_precatorio', id=id))
-            arquivo.seek(0)
+        arquivos = request.files.getlist('documentos')
+        uploads_sucesso = 0
 
-            nome_seguro = secure_filename(arquivo.filename)
-            caminho = os.path.join(UPLOAD_FOLDER, nome_seguro)
-            arquivo.save(caminho)
+        for arquivo in arquivos:
+            if arquivo.filename == '':
+                continue
 
-            doc = Documento(nome_arquivo=nome_seguro, caminho=caminho, usuario_id=current_user.id, precatorio_id=precatorio.id)
-            db.session.add(doc)
-    db.session.commit()
-    flash("Documento(s) enviado(s) com sucesso.", "success")
+            if arquivo and allowed_file(arquivo.filename):
+                try:
+                    # Verificação do tamanho do arquivo
+                    arquivo.seek(0, os.SEEK_END)
+                    file_size = arquivo.tell()
+                    arquivo.seek(0)
+                    
+                    if file_size > current_app.config['MAX_CONTENT_LENGTH']:
+                        flash(f"Arquivo {arquivo.filename} excede o tamanho máximo permitido (10MB)", "warning")
+                        continue
+
+                    # Geração de nome único e seguro
+                    file_ext = os.path.splitext(arquivo.filename)[1].lower()
+                    unique_id = uuid.uuid4().hex[:8]
+                    safe_filename = f"{unique_id}{file_ext}"
+                    save_path = os.path.join(UPLOAD_FOLDER, safe_filename)
+
+                    # Salvar o arquivo fisicamente
+                    arquivo.save(save_path)
+
+                    # Registrar no banco de dados
+                    novo_doc = Documento(
+                        nome_arquivo=secure_filename(arquivo.filename),
+                        caminho=save_path,
+                        usuario_id=current_user.id,
+                        precatorio_id=precatorio.id,
+                        data_upload=datetime.utcnow()
+                    )
+                    db.session.add(novo_doc)
+                    uploads_sucesso += 1
+
+                except Exception as file_error:
+                    current_app.logger.error(f"Erro ao processar arquivo: {str(file_error)}")
+                    continue
+
+        # Commit final e feedback
+        if uploads_sucesso > 0:
+            db.session.commit()
+            flash(f"{uploads_sucesso} documento(s) enviado(s) com sucesso!", "success")
+        else:
+            flash("Nenhum arquivo válido foi processado.", "warning")
+
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Erro no upload: {str(e)}", exc_info=True)
+        flash("Ocorreu um erro ao processar seu upload. Tente novamente.", "danger")
+
     return redirect(url_for('main.detalhar_precatorio', id=id))
 
 @main_bp.route('/download_documento/<int:id>')
 @login_required
 def download_documento(id):
+    """Rota para download de documentos"""
     doc = Documento.query.get_or_404(id)
-    return send_from_directory(directory=os.path.dirname(doc.caminho), path=os.path.basename(doc.caminho), as_attachment=True)
+    
+    # Verificação de permissões
+    if not (current_user.id == doc.usuario_id or current_user.tipo == 'administrador'):
+        flash("Acesso não autorizado.", "danger")
+        return redirect(url_for('main.dashboard'))
 
+    try:
+        return send_from_directory(
+            directory=os.path.dirname(doc.caminho),
+            path=os.path.basename(doc.caminho),
+            as_attachment=True
+        )
+    except FileNotFoundError:
+        flash("Arquivo não encontrado no servidor.", "danger")
+        return redirect(url_for('main.detalhar_precatorio', id=doc.precatorio_id))
 
 @main_bp.route('/formulario-contato', methods=['POST'])
 def receber_formulario():
-    from .models import Precatorio
-    from . import db
+    # Detecta se a requisição é JSON
+    if request.is_json:
+        data = request.get_json()
+        tipo = data.get('precatory-type')
+        tipo_entrada = data.get('acao')
+        nome = data.get('name')
+        cpf_cnpj = data.get('cpf_cnpj')
+        telefone = data.get('phone')
+        email = data.get('email')
+        valor_raw = data.get('value')
+        estado = data.get('estado') or None
+        municipio = data.get('municipio') or None
+    else:
+        tipo = request.form.get('precatory-type')
+        tipo_entrada = request.form.get('acao')
+        nome = request.form.get('name')
+        cpf_cnpj = request.form.get('cpf_cnpj')
+        telefone = request.form.get('phone')
+        email = request.form.get('email')
+        valor_raw = request.form.get('value')
+        estado = request.form.get('estado') or None
+        municipio = request.form.get('municipio') or None
 
-    tipo = request.form.get('precatory-type')
-    tipo_entrada = request.form.get('acao')
-    nome = request.form.get('name')
-    cpf_cnpj = request.form.get('cpf_cnpj')
-    telefone = request.form.get('phone')
-    email = request.form.get('email')
-    valor = request.form.get('value').replace("R$", "").replace(".", "").replace(",", ".")
-    estado = request.form.get('estado') or None
-    municipio = request.form.get('municipio') or None
-
-    if not all([tipo, tipo_entrada, nome, cpf_cnpj, telefone, email, valor]):
+    if not all([tipo, tipo_entrada, nome, cpf_cnpj, telefone, email, valor_raw]):
+        if request.is_json:
+            return {"message": "Por favor, preencha todos os campos obrigatórios."}, 400
         flash("Por favor, preencha todos os campos obrigatórios.", "danger")
+        return redirect(url_for('main.home'))
+
+    try:
+        valor = float(str(valor_raw).replace("R$", "").replace(".", "").replace(",", "."))
+    except Exception as e:
+        if request.is_json:
+            return {"message": "Valor inválido."}, 400
+        flash("Valor inválido.", "danger")
         return redirect(url_for('main.home'))
 
     novo = Precatorio(
@@ -264,15 +352,23 @@ def receber_formulario():
         cpf_cnpj=cpf_cnpj,
         telefone=telefone,
         email=email,
-        valor=float(valor),
+        valor=valor,
         estado=estado,
         municipio=municipio,
         status='Pendente',
         vendido=False
     )
 
-    db.session.add(novo)
-    db.session.commit()
+    try:
+        db.session.add(novo)
+        db.session.commit()
+        if request.is_json:
+            return {"message": "Formulário enviado com sucesso! Em breve entraremos em contato."}, 200
+        flash("Formulário enviado com sucesso! Em breve entraremos em contato.", "success")
+    except Exception as e:
+        db.session.rollback()
+        if request.is_json:
+            return {"message": "Erro ao enviar formulário. Tente novamente mais tarde."}, 500
+        flash("Erro ao enviar formulário. Tente novamente mais tarde.", "danger")
 
-    flash("Formulário enviado com sucesso! Em breve entraremos em contato.", "success")
     return redirect(url_for('main.home'))

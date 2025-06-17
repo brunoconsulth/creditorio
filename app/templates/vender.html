@@ -18,22 +18,28 @@
             <option value="Federal">Federal</option>
             <option value="Estadual">Estadual</option>
             <option value="Municipal">Municipal</option>
+            <option value="Outro">Outro</option>
           </select>
         </div>
 
         <div class="form-group">
+          <label>CPF ou CNPJ</label>
+          <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="{% if current_user.is_authenticated %}{{ current_user.cpf_cnpj }}{% endif %}" readonly>
+        </div>
+
+        <div class="form-group">
           <label>Nome completo</label>
-          <input type="text" name="nome" value="{% if current_user.is_authenticated %}{{ current_user.nome }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %}>
+          <input type="text" name="nome" value="{% if current_user.is_authenticated %}{{ current_user.nome }}{% endif %}" readonly>
         </div>
 
         <div class="form-group">
           <label>Telefone</label>
-          <input type="text" name="telefone" value="{% if current_user.is_authenticated %}{{ current_user.telefone }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %}>
+          <input type="text" name="telefone" id="telefone" value="{% if current_user.is_authenticated %}{{ current_user.telefone }}{% endif %}" readonly>
         </div>
 
         <div class="form-group">
           <label>Email</label>
-          <input type="email" name="email" value="{% if current_user.is_authenticated %}{{ current_user.email }}{% endif %}" {% if current_user.is_authenticated %}readonly{% endif %}>
+          <input type="email" name="email" value="{% if current_user.is_authenticated %}{{ current_user.email }}{% endif %}" readonly>
         </div>
 
         <div class="form-group" id="grupo-estado" style="display: none;">
@@ -52,10 +58,16 @@
 
         <div class="form-group">
           <label>Valor (R$)</label>
-          <input type="number" name="valor" step="0.01" required>
+          <input type="text" name="valor" id="valor" required>
         </div>
 
-        <button type="submit" class="btn btn-vender">Cadastrar Precatório</button>
+        <div class="form-group">
+          <label>Mensagem (opcional)</label>
+          <textarea name="mensagem" rows="4"></textarea>
+        </div>
+            <div class="form-button-container">
+                <button type="submit" class="btn-dark-theme accent">Cadastrar Precatório</button>
+            </div>
       </form>
     </div>
   </section>
@@ -64,11 +76,8 @@
 <script>
   function atualizarCampos() {
     const tipo = document.getElementById('tipo').value;
-    const grupoEstado = document.getElementById('grupo-estado');
-    const grupoMunicipio = document.getElementById('grupo-municipio');
-
-    grupoEstado.style.display = ['Estadual', 'Municipal'].includes(tipo) ? 'block' : 'none';
-    grupoMunicipio.style.display = tipo === 'Municipal' ? 'block' : 'none';
+    document.getElementById('grupo-estado').style.display = ['Estadual', 'Municipal'].includes(tipo) ? 'block' : 'none';
+    document.getElementById('grupo-municipio').style.display = tipo === 'Municipal' ? 'block' : 'none';
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -84,6 +93,30 @@
           estadoSelect.appendChild(opt);
         });
       });
+
+    // Mascaras
+    IMask(document.getElementById('cpf_cnpj'), {
+      mask: [
+        { mask: '000.000.000-00' },
+        { mask: '00.000.000/0000-00' }
+      ]
+    });
+
+    IMask(document.getElementById('telefone'), {
+      mask: '(00) 00000-0000'
+    });
+
+    IMask(document.getElementById('valor'), {
+      mask: 'R$ num',
+      blocks: {
+        num: {
+          mask: Number,
+          thousandsSeparator: '.',
+          radix: ',',
+          mapToRadix: ['.']
+        }
+      }
+    });
   });
 
   function carregarMunicipios() {
@@ -104,4 +137,5 @@
       });
   }
 </script>
+<script src="https://unpkg.com/imask"></script>
 {% endblock %}

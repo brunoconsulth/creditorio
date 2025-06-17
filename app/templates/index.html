@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -464,108 +465,8 @@
     </footer>
 
     <!-- Scripts -->
-	<script src="{{ url_for('static', filename='/js/main.js') }}"></script>
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-    // Elementos principais
-    const estadoSelect = document.getElementById("estado");
-    const municipioSelect = document.getElementById("municipio");
-    const tipoSelect = document.getElementById("precatory-type");
-    const estadoGroup = document.getElementById("estado-group");
-    const municipioGroup = document.getElementById("municipio-group");
+	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-    // === API IBGE: Carregar estados ===
-    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome")
-        .then(res => res.json())
-        .then(estados => {
-            estadoSelect.innerHTML = '<option value="">Selecione o estado</option>';
-            estados.forEach(estado => {
-                const opt = document.createElement("option");
-                opt.value = estado.sigla;
-                opt.textContent = `${estado.nome} (${estado.sigla})`;
-                estadoSelect.appendChild(opt);
-            });
-        });
-
-    // === Mostrar/ocultar campos baseado no tipo ===
-    tipoSelect.addEventListener("change", function () {
-        const tipo = this.value;
-        estadoGroup.style.display = (tipo === "estadual" || tipo === "municipal") ? "block" : "none";
-        municipioGroup.style.display = (tipo === "municipal") ? "block" : "none";
-    });
-
-    // === API IBGE: Carregar municípios ===
-    estadoSelect.addEventListener("change", function () {
-        const uf = this.value;
-        municipioSelect.innerHTML = '<option value="">Carregando municípios...</option>';
-        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
-            .then(res => res.json())
-            .then(municipios => {
-                municipioSelect.innerHTML = '<option value="">Selecione o município</option>';
-                municipios.forEach(m => {
-                    const opt = document.createElement("option");
-                    opt.value = m.nome;
-                    opt.textContent = m.nome;
-                    municipioSelect.appendChild(opt);
-                });
-            });
-    });
-
-    // === Função genérica para aplicar máscaras ===
-    function maskInput(input, formatter) {
-        input?.addEventListener("input", function () {
-            this.value = formatter(this.value);
-        });
-    }
-
-    // === Máscaras ===
-    const formatPhone = v => v.replace(/\D/g, '').slice(0,11)
-        .replace(/^(\d{2})(\d)/g, "($1) $2")
-        .replace(/(\d{5})(\d)/, "$1-$2");
-
-    const formatMoney = v => {
-        v = v.replace(/\D/g, '');
-        v = (v / 100).toFixed(2).replace('.', ',');
-        return 'R$ ' + v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-    };
-
-    const formatDoc = v => {
-        v = v.replace(/\D/g, '');
-        if (v.length <= 11) {
-            return v.slice(0,11)
-                .replace(/(\d{3})(\d)/, "$1.$2")
-                .replace(/(\d{3})(\d)/, "$1.$2")
-                .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-        } else {
-            return v.slice(0,14)
-                .replace(/^(\d{2})(\d)/, "$1.$2")
-                .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
-                .replace(/\.(\d{3})(\d)/, ".$1/$2")
-                .replace(/(\d{4})(\d)/, "$1-$2");
-        }
-    };
-
-    const formatDate = v => v.replace(/\D/g, '').slice(0,8)
-        .replace(/(\d{2})(\d)/, "$1/$2")
-        .replace(/(\d{2})(\d)/, "$1/$2");
-
-    // === Aplicar máscaras nos campos ===
-    maskInput(document.querySelector(".mask-phone"), formatPhone);
-    maskInput(document.querySelector(".mask-money"), formatMoney);
-    maskInput(document.querySelector(".mask-doc"), formatDoc);
-    maskInput(document.querySelector(".mask-date"), formatDate);
-
-    // === Validação simples de e-mail ===
-    const emailInput = document.querySelector(".validate-email");
-    emailInput?.addEventListener("blur", function () {
-        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
-        if (!isValid && this.value !== '') {
-            alert("E-mail inválido! Verifique o formato.");
-            this.focus();
-        }
-    });
-});
-</script>
 </body>
 </html>
 

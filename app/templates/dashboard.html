@@ -5,45 +5,70 @@
 {% block content %}
 <div class="dashboard-layout">
   {% include 'partials/sidebar.html' %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <section class="dashboard-content" style="padding: 20px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages" style="position: fixed; top: 20px; right: 20px; z-index: 2000;">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} fade show" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <script>
+          setTimeout(() => {
+            const alerts = document.querySelectorAll('.flash-messages .alert');
+            alerts.forEach(alert => {
+              alert.classList.remove('show');
+              alert.classList.add('opacity-0');
+              setTimeout(() => alert.remove(), 500);
+            });
+          }, 3000);
+        </script>
+
+        <style>
+          .flash-messages .alert.opacity-0 {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+          }
+        </style>
+      {% endif %}
+    {% endwith %}
+
     <div class="painel card shadow-sm rounded-lg p-3 mb-4 bg-white" style="font-size: 0.875rem;">
       <h3 class="mb-3">📄 Meus Precatórios (Compra e Venda)</h3>
       <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle text-sm">
-          <thead class="table-light">
+        <table class="table">
+          <thead>
             <tr>
-              <th>ID</th>
-              <th>Tipo Registro</th>
               <th>Data</th>
-              <th>Número</th>
+              <th>Tipo de Registro</th>
               <th>Tipo</th>
-              <th>Valor (R$)</th>
+              <th>Valor</th>
               <th>Estado</th>
               <th>Município</th>
-              <th>Telefone</th>
-              <th>Email</th>
               <th>Status</th>
+              <th>Detalhes</th>
             </tr>
           </thead>
           <tbody>
-            {% for p in precatorios if p.usuario_id == current_user.id or p.comprador_id == current_user.id %}
+            {% for precatorio in precatorios %}
             <tr>
-              <td>{{ p.id }}</td>
-              <td>{{ p.tipo_entrada|capitalize }}</td>
-              <td>{{ p.data_cadastro.strftime('%d/%m/%Y') }}</td>
-              <td>{{ p.numero or '-' }}</td>
-              <td>{{ p.tipo }}</td>
-              <td>R$ {{ '%.2f' | format(p.valor) }}</td>
-              <td>{{ p.estado or '-' }}</td>
-              <td>{{ p.municipio or '-' }}</td>
-              <td>{{ p.telefone }}</td>
-              <td>{{ p.email }}</td>
-              <td>{{ p.status or 'Pendente' }}</td>
-            </tr>
-            {% else %}
-            <tr>
-              <td colspan="11" class="text-center text-muted">Nenhum precatório encontrado.</td>
+              <td>{{ precatorio.data_cadastro.strftime('%d/%m/%Y') }}</td>
+              <td>{{ precatorio.tipo_entrada|capitalize }}</td>
+              <td>{{ precatorio.tipo }}</td>
+              <td>R$ {{ '%.2f' | format(precatorio.valor) }}</td>
+              <td>{{ precatorio.estado or '-' }}</td>
+              <td>{{ precatorio.municipio or '-' }}</td>
+              <td>{{ precatorio.status }}</td>
+              <td>
+                <a href="{{ url_for('main.detalhar_precatorio', id=precatorio.id) }}" class="btn btn-sm btn-primary" title="Ver detalhes">
+                  <i class="fas fa-eye"></i>
+                </a>
+              </td>
             </tr>
             {% endfor %}
           </tbody>

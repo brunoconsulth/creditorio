@@ -61,3 +61,37 @@ def logout():
     logout_user()
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('auth.login'))
+
+# Solicitação de redefinição
+@auth_bp.route('/recuperar-senha', methods=['GET', 'POST'])
+def recuperar_senha():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        usuario = Usuario.query.filter_by(email=email).first()
+        if usuario:
+            # gerar e enviar token por email
+            token = usuario.gerar_token_redefinicao()  # você vai implementar
+            link = url_for('auth.redefinir_senha', token=token, _external=True)
+            # enviar email com o link (implementaremos)
+            enviar_email_recuperacao(usuario.email, link)
+            flash('Instruções enviadas para seu e-mail.', 'info')
+        else:
+            flash('E-mail não encontrado.', 'danger')
+    return render_template('recuperar_senha.html')
+
+# Redefinição de senha
+@auth_bp.route('/redefinir-senha/<token>', methods=['GET', 'POST'])
+def redefinir_senha(token):
+    usuario = Usuario.verificar_token_redefinicao(token)  # você vai implementar
+    if not usuario:
+        flash('Link inválido ou expirado.', 'danger')
+        return redirect(url_for('auth.login'))
+
+    if request.method == 'POST':
+        nova_senha = request.form.get('senha')
+        usuario.set_senha(nova_senha)
+        db.session.commit()
+        flash('Senha alterada com sucesso.', 'success')
+        return redirect(url_for('auth.login'))
+
+    return render_template('redefinir_senha.html')

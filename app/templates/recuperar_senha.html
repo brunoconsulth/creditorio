@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Recuperar Senha{% endblock %}
+
+{% block content %}
+<div class="login-modern-wrapper">
+  <div class="login-modern-card">
+    <h2>Recuperar Senha</h2>
+    
+    <form method="POST" class="email-login">
+      <div class="form-group">
+        <label for="email">E-mail cadastrado</label>
+        <input type="email" name="email" id="email" placeholder="Digite seu E-mail" required>
+      </div>
+
+      <div class="form-button-container">
+        <button type="submit" class="btn-email">
+          Enviar Link de Recuperação
+        </button>
+      </div>
+    </form>
+
+    <p class="footer-text">
+      <a href="{{ url_for('auth.login') }}" class="back-link">
+        ← Voltar para o login
+      </a>
+    </p>
+  </div>
+</div>
+{% endblock %}

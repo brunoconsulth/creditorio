@@ -5,23 +5,19 @@
 <div class="login-modern-wrapper">
   <div class="login-modern-card">
     <h2>Bem-vindo!</h2>
-
-    <div class="social-login">
-      <a href="#" class="social-btn google"><i class="fab fa-google"></i> Entrar com Google</a>
-      <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i> Entrar com Facebook</a>
-      <a href="#" class="social-btn twitter"><i class="fab fa-twitter"></i> Entrar com Twitter</a>
-    </div>
-
-    <div class="divider">OU</div>
-
+   
     <form method="POST" class="email-login">
       <input type="text" name="cpf_cnpj" placeholder="CPF ou CNPJ" required>
       <input type="password" name="senha" placeholder="Senha" required>
+
       <button type="submit" class="btn-email">Entrar</button>
     </form>
 
     <p class="footer-text">
       Ainda não tem uma conta? <a href="{{ url_for('auth.cadastro') }}">Crie agora</a>
+      <div class="recover-link">
+        <a href="{{ url_for('auth.recuperar_senha') }}">Esqueceu a senha?</a>
+      </div>
     </p>
   </div>
 </div>

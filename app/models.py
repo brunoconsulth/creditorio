@@ -2,6 +2,8 @@ from . import db
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime
+from itsdangerous import URLSafeTimedSerializer as Serializer
+from flask import current_app
 
 class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuario'
@@ -33,6 +35,18 @@ class Usuario(UserMixin, db.Model):
     def verificar_senha(self, senha):
         return check_password_hash(self.senha_hash, senha)
 
+    def gerar_token_redefinicao(self, expires_sec=3600):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'usuario_id': self.id})
+
+    @staticmethod
+    def verificar_token_redefinicao(token, expires_sec=3600):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token, max_age=expires_sec)
+        except Exception:
+            return None
+        return Usuario.query.get(data['usuario_id'])
 
 class Precatorio(db.Model):
     __tablename__ = 'precatorio'
@@ -42,7 +56,7 @@ class Precatorio(db.Model):
     tipo = db.Column(db.String(50), nullable=False)
     tipo_entrada = db.Column(db.String(20), nullable=False)  # 'compra' ou 'venda'
     nome = db.Column(db.String(100), nullable=False)
-    cpf_cnpj = db.Column(db.String(20), nullable=False)  # <-- NOVO CAMPO
+    cpf_cnpj = db.Column(db.String(20), nullable=False)  
     telefone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     valor = db.Column(db.Float, nullable=False)
