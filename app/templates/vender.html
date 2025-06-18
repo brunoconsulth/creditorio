@@ -22,6 +22,12 @@
           </select>
         </div>
 
+        <!-- Adicionei o campo de número do precatório aqui -->
+        <div class="form-group">
+          <label for="numero">Número do Precatório (opcional)</label>
+          <input type="text" name="numero" id="numero" placeholder="Informe o número, se souber">
+        </div>
+
         <div class="form-group">
           <label>CPF ou CNPJ</label>
           <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="{% if current_user.is_authenticated %}{{ current_user.cpf_cnpj }}{% endif %}" readonly>
@@ -65,9 +71,10 @@
           <label>Mensagem (opcional)</label>
           <textarea name="mensagem" rows="4"></textarea>
         </div>
-            <div class="form-button-container">
-                <button type="submit" class="btn-dark-theme accent">Cadastrar Precatório</button>
-            </div>
+
+        <div class="form-button-container">
+          <button type="submit" class="btn-dark-theme accent">Cadastrar Precatório</button>
+        </div>
       </form>
     </div>
   </section>
@@ -116,6 +123,11 @@
           mapToRadix: ['.']
         }
       }
+    });
+
+    // Máscara opcional para o número do precatório (permite números, pontos e traços)
+    IMask(document.getElementById('numero'), {
+      mask: /^[0-9\.\-]*$/
     });
   });
 

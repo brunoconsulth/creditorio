@@ -38,6 +38,9 @@ def vender_precatorio():
         telefone = current_user.telefone if current_user.is_authenticated else request.form.get('telefone')
         email = current_user.email if current_user.is_authenticated else request.form.get('email')
         cpf_cnpj = current_user.cpf_cnpj if current_user.is_authenticated else request.form.get('cpf_cnpj')
+        
+        # Novo campo para número do precatório (não obrigatório)
+        numero = request.form.get('numero', None)  # None se não for informado
 
         valor_str = request.form.get('valor', '').replace('R$', '').replace('.', '').replace(',', '.').strip()
         try:
@@ -64,6 +67,7 @@ def vender_precatorio():
             valor=valor,
             estado=estado,
             municipio=municipio,
+            numero=numero,  # Adicionando o número do precatório
             usuario_id=current_user.id if current_user.is_authenticated else None
         )
         db.session.add(novo)
