@@ -2,31 +2,84 @@
 
 {% block title %}Visualizar Mensagem{% endblock %}
 
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mensagem_detalhes.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="dashboard-layout">
   {% include 'partials/sidebar.html' %}
 
-  <section class="dashboard-content py-4 px-3">
-    <div class="card shadow p-4 bg-white rounded-lg">
-      <h3 class="mb-4 text-primary">📨 Detalhes da Mensagem</h3>
+  <div class="mensagem-detalhes-container">
+    <div class="mensagem-card">
+      
+      <!-- Header da Mensagem -->
+      <div class="mensagem-header">
+        <div class="mensagem-icon">
+          <i class="bi bi-envelope-open"></i>
+        </div>
+        <h2 class="mensagem-title">Detalhes da Mensagem</h2>
+      </div>
 
-      <dl class="row">
-        <dt class="col-sm-3">Nome</dt>
-        <dd class="col-sm-9">{{ mensagem.nome }}</dd>
-        <dt class="col-sm-3">Email</dt>
-        <dd class="col-sm-9">{{ mensagem.email }}</dd>
-        <dt class="col-sm-3">Telefone</dt>
-        <dd class="col-sm-9">{{ mensagem.telefone }}</dd>
-        <dt class="col-sm-3">Assunto</dt>
-        <dd class="col-sm-9">{{ mensagem.assunto }}</dd>
-        <dt class="col-sm-3">Mensagem</dt>
-        <dd class="col-sm-9">
-          <div class="p-3 border rounded bg-light">{{ mensagem.mensagem }}</div>
-        </dd>
-      </dl>
+      <!-- Informações do Remetente -->
+      <div class="mensagem-metadata">
+        <div class="mensagem-info-item">
+          <div class="mensagem-info-label">
+            <i class="bi bi-person mensagem-info-icon"></i>
+            Nome do Remetente
+          </div>
+          <div class="mensagem-info-value">{{ mensagem.nome }}</div>
+        </div>
 
-      <a href="{{ url_for('main.painel_admin') }}" class="btn btn-outline-secondary mt-4">Voltar</a>
+        <div class="mensagem-info-item">
+          <div class="mensagem-info-label">
+            <i class="bi bi-envelope mensagem-info-icon"></i>
+            E-mail
+          </div>
+          <div class="mensagem-info-value">{{ mensagem.email }}</div>
+        </div>
+      </div>
+
+      <div class="mensagem-metadata">
+        <div class="mensagem-info-item">
+          <div class="mensagem-info-label">
+            <i class="bi bi-telephone mensagem-info-icon"></i>
+            Telefone
+          </div>
+          <div class="mensagem-info-value">{{ mensagem.telefone }}</div>
+        </div>
+
+        <div class="mensagem-info-item">
+          <div class="mensagem-info-label">
+            <i class="bi bi-tag mensagem-info-icon"></i>
+            Assunto
+          </div>
+          <div class="mensagem-info-value">{{ mensagem.assunto }}</div>
+        </div>
+      </div>
+
+      <!-- Conteúdo da Mensagem -->
+      <div class="mensagem-content-section">
+        <div class="mensagem-content-label">
+          <i class="bi bi-chat-text mensagem-info-icon"></i>
+          Conteúdo da Mensagem
+        </div>
+        <div class="mensagem-content-box">
+          <p class="mensagem-content-text">{{ mensagem.mensagem }}</p>
+        </div>
+      </div>
+
+      <!-- Ações -->
+      <div class="mensagem-actions">
+        <a href="{{ url_for('main.painel_admin') }}" class="mensagem-btn-voltar">
+          <i class="bi bi-arrow-left mensagem-btn-icon"></i>
+          Voltar ao Painel
+        </a>
+      </div>
+
     </div>
-  </section>
+  </div>
 </div>
 {% endblock %}
+

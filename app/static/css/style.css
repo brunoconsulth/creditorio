@@ -85,6 +85,11 @@ body, html {
   padding: 6rem var(--space-md) 2rem;
 }
 
+.dashboard-content {
+  margin-left: 220px; /* Ajusta o conteúdo principal para a largura da sidebar */
+  transition: margin-left 0.3s ease; /* Transição suave para responsividade */
+}
+
 /* Backgrounds específicos */
 .body-login-page {
   background: linear-gradient(to right, var(--primary-color), var(--blue-light));
@@ -345,9 +350,6 @@ body, html {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   min-width: 200px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
 }
 
 .btn-dark-theme:hover {
@@ -434,14 +436,18 @@ body, html {
 }
 
 .form-card {
-    max-width: 700px;
+    width: 100%;
     margin: 0 auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 2.5rem;
+    padding: 2rem;
     animation: fadeIn 0.5s ease-in-out;
+    min-width: 600px;
+    max-width: 600px;
+    box-sizing: border-box;
 }
+ 
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -457,6 +463,10 @@ body, html {
     text-align: center;
     position: relative;
     padding-bottom: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .form-card h2::after {
@@ -483,6 +493,7 @@ body, html {
     font-size: 1rem;
     transition: all 0.3s ease;
     background-color: #f9f9f9;
+    box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -522,7 +533,7 @@ body, html {
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: white; /* Cor padrão - altere este valor */
+    color: #2c3e50;
     font-size: 0.95rem;
     font-weight: 500;
     transition: all 0.3s ease;
@@ -600,13 +611,13 @@ body, html {
    Componentes de Navegação
    ========================================================================== */
 
-/* Header */
-
 .site-header {
   background: linear-gradient(135deg, #0a0e2a 100%, #1a237e 0%);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
+  left: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -956,8 +967,7 @@ body, html {
 
 /* ======================
    LINKS E RODAPÉ
-   ====================== */
-.footer-text {
+   ====================== */.footer-text {
   text-align: center;
   color:white !important;
   margin-top: 2.5rem;
@@ -1248,47 +1258,347 @@ body, html {
 /* Painéis */
 .painel {
   background: var(--white);
-  border-radius: var(--border-radius-lg);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-  padding: 24px;
-  margin-bottom: 32px;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
 }
 
-.painel h3 {
+.painel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--gray);
+}
+
+.painel-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--primary-color);
+}
+
+.painel-body {
+  /* Estilos para o corpo do painel */
+}
+
+.painel-footer {
+  margin-top: var(--space-md);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--gray);
+  text-align: right;
+}
+
+/* Utilitários de Layout */
+.flex-group {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.grid-2-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-md);
+}
+
+/* Alertas e Mensagens */
+.alert {
+  padding: var(--space-md);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--space-md);
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.3em 0.6em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: var(--primary-color);
+}
+
+.badge-success {
+  color: #fff;
+  background-color: var(--success-color);
+}
+
+.badge-danger {
+  color: #fff;
+  background-color: var(--danger-color);
+}
+
+/* Títulos e Subtítulos */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--dark-gray);
+  margin-bottom: var(--space-sm);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
   font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 16px;
 }
 
-/* Status */
-.status-aceita {
-  color: green;
-  font-weight: bold;
+h6 {
+  font-size: 1rem;
 }
 
-.status-recusada {
-  color: red;
-  font-weight: bold;
+/* Links */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
 }
 
-/* Mensagens Flash */
-.flash {
-  padding: var(--space-sm) var(--space-md);
-  margin: var(--space-md) 0;
+a:hover {
+  text-decoration: underline;
+}
+
+/* Imagens */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Listas */
+ul, ol {
+  margin-left: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+/* Parágrafos */
+p {
+  margin-bottom: var(--space-md);
+}
+
+/* Citações */
+blockquote {
+  margin: 0 0 var(--space-md) var(--space-lg);
+  padding-left: var(--space-md);
+  border-left: 4px solid var(--gray);
+  color: var(--text-muted);
+}
+
+/* Código */
+code,
+pre {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  background-color: var(--light-gray);
+  padding: 0.2em 0.4em;
   border-radius: var(--border-radius-sm);
 }
 
-.flash.success {
-  background: #d4edda;
-  color: #155724;
+pre {
+  display: block;
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  overflow-x: auto;
 }
 
-.flash.error {
-  background: #f8d7da;
-  color: #721c24;
+/* Formulários - Adicionais */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espaçamento entre os itens do formulário */
 }
 
-/* Rodapé */
+
+.form-group {
+  margin-bottom: var(--space-md);
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.form-group input[type="checkbox"],
+.form-group input[type="radio"] {
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+  margin-right: 0.5rem;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+}
+
+/* Estilos para o Dashboard */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dashboard-main {
+  flex-grow: 1;
+  padding: var(--space-lg);
+  background-color: var(--light-gray);
+  margin-left: 220px; /* Ajusta o conteúdo principal para a largura da sidebar */
+  transition: margin-left 0.3s ease; /* Transição suave para responsividade */
+  min-height: calc(100vh - 50px); /* Garante que o conteúdo principal ocupe o restante da altura da tela, considerando o header */
+}
+
+.dashboard-header {
+  background-color: var(--white);
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--gray);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative; /* Alterado de sticky para relative */
+  top: 0;
+  z-index: 998; 
+  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+  background: var(--white);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  text-align: center;
+}
+
+.stat-card h3 {
+  margin-top: 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.stat-card p {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 0;
+}
+
+/* Responsividade geral */
+@media (max-width: 1024px) {
+  .container {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0; /* Esconde a sidebar em telas menores */
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .dashboard-content {
+    margin-left: 0; /* Remove o margin-left em telas menores */
+    padding: 1.5rem;
+  }
+
+  .main-content {
+    padding: 1.5rem;
+  }
+
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .dashboard-header {
+    position: relative; /* Remove sticky em telas menores se necessário */
+    top: auto;
+  }
+
+  .topnav {
+    justify-content: center;
+  }
+
+  .topnav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .topnav li:first-child {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+}
+
+
 .site-footer {
   background: #eee;
   text-align: center;
@@ -1315,149 +1625,524 @@ body, html {
   text-decoration: underline;
 }
 
-/* Divider */
-.divider {
+
+
+
+
+/* Estilos isolados para a página de detalhes do precatório */
+.precatorio-detalhes-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.precatorio-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+  padding: 2rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.precatorio-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.precatorio-card-header {
   display: flex;
   align-items: center;
-  text-align: center;
-  color: #aaa;
-  margin: var(--space-lg) 0;
-  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
 }
 
-.divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid #eee;
+.precatorio-card-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  color: white;
+  font-size: 1.5rem;
 }
 
-.divider:not(:empty)::before {
-  margin-right: .5em;
-}
-
-.divider:not(:empty)::after {
-  margin-left: .5em;
-}
-
-/* ==========================================================================
-   Dashboard Específico
-   ========================================================================== */
-.dashboard-content .bg-white.shadow.rounded-2xl {
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray);
-  padding: var(--space-lg);
-}
-
-.dashboard-layout {
-    display: flex;
-    min-height: 100vh;
-
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    width: 100%;
-}
-
-.dashboard-content {
-    flex: 1;
-    padding: 2rem;
-    margin-left: 250px; /* Ajuste conforme largura da sidebar */
-}
-
-
-.dashboard-content {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-    max-width: 1400px; /* Largura máxima para telas grandes */
-    margin: 0 auto; /* Centraliza na página */
-    width: 100%; /* Ocupa 100% do espaço disponível */
-    padding: 20px;
-    transition: all 0.3s;
-}
-
-
-
-.dashboard-content .bg-white.shadow.rounded-2xl h4 {
-  font-size: 1.35rem;
+.precatorio-card-title {
+  font-size: 1.25rem;
   font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: var(--space-md);
+  color: #1e293b;
+  margin: 0;
 }
 
-.dashboard-content .text-gray-500.text-xs {
+.precatorio-info-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.precatorio-info-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.precatorio-info-icon {
+  color: #667eea;
+  margin-right: 0.75rem;
+  margin-top: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.precatorio-info-content {
+  flex: 1;
+}
+
+.precatorio-info-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
   font-weight: 500;
-  color: #777;
 }
 
-.dashboard-content .text-sm.divide-y li {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid #eee;
+.precatorio-info-value {
+  font-size: 0.95rem;
+  color: #1e293b;
+  font-weight: 500;
 }
 
-.dashboard-content .text-sm.divide-y li:last-child {
+.precatorio-detalhes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.precatorio-detalhes-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.precatorio-detalhes-item:last-child {
   border-bottom: none;
 }
 
-/* ==========================================================================
-   Media Queries
-   ========================================================================== */
+.precatorio-detalhes-label {
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.precatorio-detalhes-value {
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.precatorio-valor-destaque {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.precatorio-documentos-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.precatorio-documento-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  border: 1px solid #e2e8f0;
+}
+
+.precatorio-documento-info {
+  display: flex;
+  align-items: center;
+}
+
+.precatorio-documento-icon {
+  color: #667eea;
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.precatorio-documento-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.precatorio-documento-nome {
+  font-weight: 500;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.precatorio-documento-autor {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.precatorio-btn-download {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.precatorio-btn-download:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+  color: white;
+  text-decoration: none;
+}
+
+.precatorio-upload-form {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 2px dashed #cbd5e1;
+}
+
+.precatorio-upload-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.precatorio-file-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: white;
+  font-size: 0.9rem;
+}
+
+.precatorio-btn-upload {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.precatorio-btn-upload:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+}
+
+.precatorio-voltar-link {
+  display: inline-flex;
+  align-items: center;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.precatorio-voltar-link:hover {
+  background-color: #667eea;
+  color: white;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.precatorio-empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+  font-style: italic;
+}
+
 @media (max-width: 768px) {
-  .dashboard-content {
-    margin-left: 0;
-    padding: var(--space-md);
+  .precatorio-detalhes-container {
+    padding: 1rem;
+  }
+  
+  .precatorio-card {
+    padding: 1.5rem;
+  }
+  
+  .precatorio-documento-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+
+
+/* Estilos isolados para a página de visualização de mensagens */
+.mensagem-detalhes-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.mensagem-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 2.5rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+}
+
+.mensagem-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.mensagem-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.mensagem-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.25rem;
+  color: white;
+  font-size: 1.75rem;
+}
+
+.mensagem-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+
+.mensagem-info-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.mensagem-info-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.mensagem-info-item:hover {
+  background-color: #f1f5f9;
+  transform: translateX(4px);
+}
+
+.mensagem-info-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.mensagem-info-icon {
+  color: #667eea;
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.mensagem-info-value {
+  font-size: 1rem;
+  color: #1e293b;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.mensagem-content-section {
+  margin-bottom: 2rem;
+}
+
+.mensagem-content-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.mensagem-content-box {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.mensagem-content-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.mensagem-content-text {
+  font-size: 1rem;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.mensagem-actions {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.mensagem-btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.mensagem-btn-voltar:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  border-color: transparent;
+}
+
+.mensagem-btn-icon {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.mensagem-metadata {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mensagem-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .mensagem-detalhes-container {
+    padding: 1rem;
+  }
+  
+  .mensagem-card {
+    padding: 1.5rem;
+  }
+  
+  .mensagem-header {
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .mensagem-icon {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .mensagem-metadata {
     grid-template-columns: 1fr;
   }
-
- 
-
-  .cards {
-    flex-direction: column;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-  }
-
-  .site-header nav ul {
-    float: none;
+  
+  .mensagem-actions {
     justify-content: center;
   }
+}
 
-  .table thead {
-    display: none;
+@media (max-width: 480px) {
+  .mensagem-info-item {
+    padding: 1rem;
   }
-
-  .table, .table tbody, .table tr, .table td {
-    display: block;
-    width: 100%;
+  
+  .mensagem-content-box {
+    padding: 1rem;
   }
-
-  .table tr {
-    margin-bottom: var(--space-md);
-    border: 1px solid #e9ecef;
-    border-radius: var(--border-radius-md);
-    overflow: hidden;
-  }
-
-  .table td {
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
-  }
-
-  .table td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 15px;
-    width: calc(50% - 30px);
-    padding-right: 10px;
-    white-space: nowrap;
-    text-align: left;
-    font-weight: 600;
-    color: var(--text-color);
-  }
-
-  .dashboard-content .bg-white.shadow.rounded-2xl {
-    margin-bottom: var(--space-md);
+  
+  .mensagem-btn-voltar {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -1465,281 +2150,3 @@ body, html {
 
 
 
-
-
-/**
- * ESTILOS GERAIS DO LAYOUT
- * Define a estrutura base do painel e configurações globais
- */
-/* Container principal do conteúdo */
-
-
-/**
- * ESTILOS PARA OS CARDS
- * Estilização base que se aplica a todos os três cards
- */
-.dashboard-content > div {
-    background: white; /* Fundo branco para os cards */
-    border-radius: 12px; /* Bordas arredondadas */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Sombra sutil */
-    padding: 24px; /* Espaçamento interno */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transição suave para hover */
-    border: 1px solid #e9ecef; /* Borda sutil */
-}
-
-/* Efeito ao passar o mouse sobre qualquer card */
-.dashboard-content > div:hover {
-    transform: translateY(-2px); /* Levanta levemente o card */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08); /* Sombra mais pronunciada */
-}
-
-/**
- * ESTILOS PARA TÍTULOS DOS CARDS
- * Padroniza a aparência dos títulos h4 em todos os cards
- */
-.dashboard-content h4 {
-    font-size: 1.1rem; /* Tamanho de fonte */
-    font-weight: 600; /* Peso da fonte (semibold) */
-    color: #212529; /* Cor escura para boa legibilidade */
-    margin-bottom: 1.25rem; /* Espaçamento abaixo do título */
-    padding-bottom: 0.75rem; /* Espaçamento para a borda inferior */
-    border-bottom: 1px solid #e9ecef; /* Linha de separação */
-    display: flex; /* Permite alinhar ícone com texto */
-    align-items: center; /* Centraliza verticalmente */
-}
-
-/* Ícones nos títulos */
-.dashboard-content h4 i {
-    margin-right: 8px; /* Espaço entre ícone e texto */
-}
-
-/**
- * CARD 1 - INFORMAÇÕES DO USUÁRIO
- * Estilos específicos para o primeiro card (dados do usuário)
- */
-.dashboard-content > div:first-child ul {
-    display: flex; /* Layout flexível */
-    flex-direction: column; /* Itens em coluna */
-    gap: 1rem; /* Espaço entre itens */
-}
-
-/* Cada item da lista de informações */
-.dashboard-content > div:first-child li {
-    display: flex; /* Alinha ícone com texto */
-    align-items: flex-start; /* Alinha ao topo */
-    gap: 12px; /* Espaço entre ícone e texto */
-    padding: 8px 0; /* Espaçamento vertical */
-}
-
-/* Ícones da lista */
-.dashboard-content > div:first-child li i {
-    font-size: 1.1rem; /* Tamanho do ícone */
-    color: #495057; /* Cor neutra */
-    margin-top: 2px; /* Alinhamento fino */
-}
-
-/* Texto secundário (labels como "Telefone", "E-mail") */
-.dashboard-content > div:first-child .text-gray-500 {
-    font-size: 0.75rem; /* Tamanho menor */
-    color: #6c757d; /* Cor cinza */
-    text-transform: uppercase; /* Texto em caixa alta */
-    letter-spacing: 0.5px; /* Espaçamento entre letras */
-    font-weight: 500; /* Peso médio */
-}
-
-/* Texto principal (valores dos campos) */
-.dashboard-content > div:first-child li > div > div:not(.text-gray-500) {
-    font-weight: 500; /* Peso médio para destaque */
-    color: #212529; /* Cor escura */
-}
-
-/**
- * CARD 2 - DETALHES DO PRECATÓRIO
- * Estilos específicos para o card do meio (detalhes do precatório)
- */
-.dashboard-content > div:nth-child(2) {
-    display: flex; /* Layout flexível */
-    flex-direction: column; /* Organização em coluna */
-}
-
-/* Lista de detalhes */
-.dashboard-content > div:nth-child(2) ul {
-    display: flex; /* Layout flexível */
-    flex-direction: column; /* Itens em coluna */
-    gap: 0.8rem; /* Espaço entre itens */
-}
-
-/* Cada linha de detalhe */
-.dashboard-content > div:nth-child(2) li {
-    display: flex; /* Permite alinhar label e valor */
-    justify-content: space-between; /* Separa label e valor */
-    padding: 6px 0; /* Espaçamento vertical */
-    border-bottom: 1px dashed #e9ecef; /* Linha divisória sutil */
-}
-
-/* Labels (como "Número:", "Tipo:") */
-.dashboard-content > div:nth-child(2) li strong {
-    color: #495057; /* Cor neutra */
-    font-weight: 500; /* Peso médio */
-    min-width: 80px; /* Largura mínima para alinhamento */
-    display: inline-block; /* Permite definir largura */
-}
-
-/* Remove borda do último item */
-.dashboard-content > div:nth-child(2) li:last-child {
-    border-bottom: none;
-}
-
-/**
- * CARD 3 - DOCUMENTOS
- * Estilos específicos para o terceiro card (documentos e upload)
- */
-.dashboard-content > div:nth-child(3) ul {
-    margin-bottom: 1.5rem; /* Espaço abaixo da lista */
-}
-
-/* Cada item de documento */
-.dashboard-content > div:nth-child(3) li {
-    padding: 12px 0; /* Espaçamento vertical */
-    display: flex; /* Alinha ícone, texto e botão */
-    align-items: center; /* Centraliza verticalmente */
-    justify-content: space-between; /* Espaço entre texto e botão */
-    border-bottom: 1px solid #f1f3f5; /* Linha divisória */
-}
-
-/* Remove borda do último item */
-.dashboard-content > div:nth-child(3) li:last-child {
-    border-bottom: none;
-}
-
-/* Texto secundário (informação de quem enviou) */
-.dashboard-content > div:nth-child(3) small {
-    font-size: 0.75rem; /* Tamanho pequeno */
-    color: #868e96; /* Cor cinza */
-    display: block; /* Ocupa linha própria */
-    margin-top: 2px; /* Espaço do texto principal */
-}
-
-/* Botão de download */
-.dashboard-content > div:nth-child(3) .btn-outline-primary {
-    border: 1px solid #e9ecef; /* Borda sutil */
-    color: #495057; /* Cor escura */
-    padding: 4px 12px; /* Espaçamento interno */
-    border-radius: 6px; /* Bordas arredondadas */
-    font-size: 0.85rem; /* Tamanho da fonte */
-    transition: all 0.2s; /* Transição suave */
-}
-
-/* Efeito hover no botão */
-.dashboard-content > div:nth-child(3) .btn-outline-primary:hover {
-    background-color: #f8f9fa; /* Fundo levemente destacado */
-    border-color: #dee2e6; /* Borda mais visível */
-}
-
-/**
- * FORMULÁRIO DE UPLOAD
- * Estilização do formulário para envio de novos documentos
- */
-.dashboard-content > div:nth-child(3) form {
-    background: #f8f9fa; /* Fundo levemente diferenciado */
-    padding: 16px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas arredondadas */
-    margin-top: 24px; /* Espaço da lista acima */
-}
-
-/* Label do formulário */
-.dashboard-content > div:nth-child(3) label {
-    color: #495057; /* Cor escura */
-    font-weight: 500; /* Peso médio */
-    margin-bottom: 8px; /* Espaço abaixo */
-    display: block; /* Ocupa linha própria */
-}
-
-/* Campo de input para arquivo */
-.dashboard-content > div:nth-child(3) .form-control {
-    width: 100%; /* Largura total */
-    padding: 8px 12px; /* Espaçamento interno */
-    border: 1px solid #dee2e6; /* Borda sutil */
-    border-radius: 6px; /* Bordas arredondadas */
-    margin-bottom: 12px; /* Espaço abaixo */
-    font-size: 0.9rem; /* Tamanho da fonte */
-}
-
-/* Botão de enviar */
-.dashboard-content > div:nth-child(3) .btn-primary {
-    background-color: #4263eb; /* Cor azul profissional */
-    color: white; /* Texto branco */
-    border: none; /* Sem borda */
-    padding: 8px 16px; /* Espaçamento interno */
-    border-radius: 6px; /* Bordas arredondadas */
-    font-weight: 500; /* Peso médio */
-    cursor: pointer; /* Cursor de pointer */
-    transition: background-color 0.2s; /* Transição suave */
-}
-
-/* Efeito hover no botão */
-.dashboard-content > div:nth-child(3) .btn-primary:hover {
-    background-color: #3b5bdb; /* Cor azul mais escura */
-}
-
-/**
- * BOTÃO VOLTAR
- * Estilização do botão de voltar no rodapé
- */
-.px-4.py-6 {
-    max-width: 1400px; /* Largura máxima igual ao conteúdo */
-    margin: 0 auto; /* Centraliza */
-    padding-top: 1.5rem !important; /* Espaço acima */
-}
-
-/* Estilo base do botão */
-.btn-outline-secondary {
-    display: inline-flex; /* Permite alinhar ícone com texto */
-    align-items: center; /* Centraliza verticalmente */
-    gap: 6px; /* Espaço entre ícone e texto */
-    padding: 8px 16px; /* Espaçamento interno */
-    border: 1px solid #dee2e6; /* Borda sutil */
-    border-radius: 6px; /* Bordas arredondadas */
-    color: #495057; /* Cor escura */
-    font-weight: 500; /* Peso médio */
-    transition: all 0.2s; /* Transição suave */
-}
-
-/* Efeito hover no botão */
-.btn-outline-secondary:hover {
-    background-color: #f8f9fa; /* Fundo levemente destacado */
-    border-color: #ced4da; /* Borda mais visível */
-}
-
-/**
- * RESPONSIVIDADE
- * Ajustes para telas menores (mobile)
- */
-@media (max-width: 768px) {
-    .dashboard-content {
-        grid-template-columns: 1fr !important; /* Uma coluna em mobile */
-        gap: 1.5rem; /* Espaço entre cards */
-    }
-    
-    .dashboard-content > div {
-        margin-bottom: 0; /* Remove margens extras */
-    }
-}
-
-/**
- * ESTADOS DE INTERAÇÃO
- * Melhora a acessibilidade e feedback visual
- */
-input:focus, button:focus {
-    outline: none; /* Remove outline padrão */
-    box-shadow: 0 0 0 3px rgba(66, 99, 235, 0.15); /* Efeito de foco sutil */
-}
-
-/**
- * ÍCONES
- * Ajustes finos para ícones Bootstrap Icons
- */
-.bi {
-    font-size: 1rem; /* Tamanho padrão */
-    vertical-align: middle; /* Alinhamento vertical */
-}

@@ -48,7 +48,7 @@ def login():
                 return redirect(url_for('auth.login'))
 
             login_user(usuario)
-            flash('Login realizado com sucesso!', 'success')
+       
             return redirect(url_for('main.dashboard'))
         else:
             flash('CPF/CNPJ ou senha inválidos.', 'danger')
@@ -90,8 +90,7 @@ def redefinir_senha(token):
     if request.method == 'POST':
         nova_senha = request.form.get('senha')
         usuario.set_senha(nova_senha)
-        db.session.commit()
-        flash('Senha alterada com sucesso.', 'success')
+
         return redirect(url_for('auth.login'))
 
     return render_template('redefinir_senha.html')

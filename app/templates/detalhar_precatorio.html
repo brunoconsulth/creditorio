@@ -2,101 +2,158 @@
 
 {% block title %}Detalhes do Precatório{% endblock %}
 
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/precatorio_detalhes.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="dashboard-layout">
   {% include 'partials/sidebar.html' %}
 
-  <section class="dashboard-content py-6 px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-    <!-- Coluna 1 - Info do Usuário estilo card -->
-    <div class="bg-white shadow rounded-2xl p-5 border">
-      <h4 class="font-semibold mb-4">Informações do Usuário</h4>
-      <ul class="text-sm text-gray-700 space-y-3">
-        <li class="flex items-center gap-3">
-          <i class="bi bi-telephone text-primary"></i>
-          <div>
-            <div class="text-gray-500 text-xs">Telefone</div>
-            <div>{{ precatorio.telefone }}</div>
+  <div class="precatorio-detalhes-container">
+    
+    <!-- Card 1 - Informações do Usuário -->
+    <div class="precatorio-card">
+      <div class="precatorio-card-header">
+        <div class="precatorio-card-icon">
+          <i class="bi bi-person-circle"></i>
+        </div>
+        <h3 class="precatorio-card-title">Informações do Usuário</h3>
+      </div>
+      
+      <div class="precatorio-info-grid">
+        <div class="precatorio-info-item">
+          <i class="bi bi-telephone precatorio-info-icon"></i>
+          <div class="precatorio-info-content">
+            <div class="precatorio-info-label">Telefone</div>
+            <div class="precatorio-info-value">{{ precatorio.telefone }}</div>
           </div>
+        </div>
+        
+        <div class="precatorio-info-item">
+          <i class="bi bi-envelope precatorio-info-icon"></i>
+          <div class="precatorio-info-content">
+            <div class="precatorio-info-label">E-mail</div>
+            <div class="precatorio-info-value">{{ precatorio.email }}</div>
+          </div>
+        </div>
+        
+        <div class="precatorio-info-item">
+          <i class="bi bi-credit-card-2-front precatorio-info-icon"></i>
+          <div class="precatorio-info-content">
+            <div class="precatorio-info-label">CPF/CNPJ</div>
+            <div class="precatorio-info-value">{{ precatorio.cpf_cnpj }}</div>
+          </div>
+        </div>
+        
+        <div class="precatorio-info-item">
+          <i class="bi bi-calendar-event precatorio-info-icon"></i>
+          <div class="precatorio-info-content">
+            <div class="precatorio-info-label">Data de Cadastro</div>
+            <div class="precatorio-info-value">{{ precatorio.data_cadastro.strftime('%d/%m/%Y') }}</div>
+          </div>
+        </div>
+        
+        <div class="precatorio-info-item">
+          <i class="bi bi-info-circle precatorio-info-icon"></i>
+          <div class="precatorio-info-content">
+            <div class="precatorio-info-label">Tipo de Registro</div>
+            <div class="precatorio-info-value">{{ precatorio.tipo_entrada|capitalize }}</div>
+          </div>
+        </div>
+        
+        <div class="precatorio-info-item">
+          <i class="bi bi-check-circle precatorio-info-icon"></i>
+          <div class="precatorio-info-content">
+            <div class="precatorio-info-label">Status</div>
+            <div class="precatorio-info-value">{{ precatorio.status }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 - Dados do Precatório -->
+    <div class="precatorio-card">
+      <div class="precatorio-card-header">
+        <div class="precatorio-card-icon">
+          <i class="bi bi-file-earmark-text"></i>
+        </div>
+        <h3 class="precatorio-card-title">Detalhes do Precatório</h3>
+      </div>
+      
+      <ul class="precatorio-detalhes-list">
+        <li class="precatorio-detalhes-item">
+          <span class="precatorio-detalhes-label">Número:</span>
+          <span class="precatorio-detalhes-value">{{ precatorio.numero or '-' }}</span>
         </li>
-        <li class="flex items-center gap-3">
-          <i class="bi bi-envelope text-primary"></i>
-          <div>
-            <div class="text-gray-500 text-xs">E-mail</div>
-            <div>{{ precatorio.email }}</div>
-          </div>
+        <li class="precatorio-detalhes-item">
+          <span class="precatorio-detalhes-label">Tipo:</span>
+          <span class="precatorio-detalhes-value">{{ precatorio.tipo }}</span>
         </li>
-        <li class="flex items-center gap-3">
-          <i class="bi bi-credit-card-2-front text-primary"></i>
-          <div>
-            <div class="text-gray-500 text-xs">CPF/CNPJ</div>
-            <div>{{ precatorio.cpf_cnpj }}</div>
-          </div>
+        <li class="precatorio-detalhes-item">
+          <span class="precatorio-detalhes-label">Valor:</span>
+          <span class="precatorio-detalhes-value precatorio-valor-destaque">R$ {{ '%.2f' | format(precatorio.valor) }}</span>
         </li>
-        <li class="flex items-center gap-3">
-          <i class="bi bi-calendar-event text-primary"></i>
-          <div>
-            <div class="text-gray-500 text-xs">Data de Cadastro</div>
-            <div>{{ precatorio.data_cadastro.strftime('%d/%m/%Y') }}</div>
-          </div>
+        <li class="precatorio-detalhes-item">
+          <span class="precatorio-detalhes-label">Estado:</span>
+          <span class="precatorio-detalhes-value">{{ precatorio.estado or '-' }}</span>
         </li>
-        <li class="flex items-center gap-3">
-          <i class="bi bi-info-circle text-primary"></i>
-          <div>
-            <div class="text-gray-500 text-xs">Tipo de Registro</div>
-            <div>{{ precatorio.tipo_entrada|capitalize }}</div>
-          </div>
-        </li>
-        <li class="flex items-center gap-3">
-          <i class="bi bi-check-circle text-primary"></i>
-          <div>
-            <div class="text-gray-500 text-xs">Status</div>
-            <div>{{ precatorio.status }}</div>
-          </div>
+        <li class="precatorio-detalhes-item">
+          <span class="precatorio-detalhes-label">Município:</span>
+          <span class="precatorio-detalhes-value">{{ precatorio.municipio or '-' }}</span>
         </li>
       </ul>
     </div>
 
-    <!-- Coluna 2 - Dados do Precatório -->
-    <div class="bg-white shadow rounded-2xl p-4">
-      <h4 class="font-semibold mb-3 text-primary">Detalhes do Precatório</h4>
-      <ul class="text-sm text-gray-700">
-        <li><strong>Número:</strong> {{ precatorio.numero or '-' }}</li>
-        <li><strong>Tipo:</strong> {{ precatorio.tipo }}</li>
-        <li><strong>Valor:</strong> R$ {{ '%.2f' | format(precatorio.valor) }}</li>
-        <li><strong>Estado:</strong> {{ precatorio.estado or '-' }}</li>
-        <li><strong>Município:</strong> {{ precatorio.municipio or '-' }}</li>
-      </ul>
-    </div>
-
-    <!-- Coluna 3 - Ações e Documentos -->
-    <div class="bg-white shadow rounded-2xl p-4">
-      <h4 class="font-semibold mb-3 text-primary">📎 Documentos</h4>
+    <!-- Card 3 - Documentos e Upload -->
+    <div class="precatorio-card">
+      <div class="precatorio-card-header">
+        <div class="precatorio-card-icon">
+          <i class="bi bi-folder2-open"></i>
+        </div>
+        <h3 class="precatorio-card-title">Documentos</h3>
+      </div>
+      
       {% if precatorio.documentos %}
-      <ul class="text-sm divide-y">
-        {% for doc in precatorio.documentos %}
-        <li class="py-2 flex justify-between items-center">
-          <span>
-            <i class="bi bi-file-earmark"></i> {{ doc.nome_arquivo }}<br>
-            <small class="text-muted">por {{ doc.usuario.nome if doc.usuario else 'Anônimo' }}</small>
-          </span>
-          <a href="{{ url_for('main.download_documento', id=doc.id) }}" class="btn btn-sm btn-outline-primary">Baixar</a>
-        </li>
-        {% endfor %}
-      </ul>
+        <ul class="precatorio-documentos-list">
+          {% for doc in precatorio.documentos %}
+          <li class="precatorio-documento-item">
+            <div class="precatorio-documento-info">
+              <i class="bi bi-file-earmark precatorio-documento-icon"></i>
+              <div class="precatorio-documento-details">
+                <div class="precatorio-documento-nome">{{ doc.nome_arquivo }}</div>
+                <div class="precatorio-documento-autor">por {{ doc.usuario.nome if doc.usuario else 'Anônimo' }}</div>
+              </div>
+            </div>
+            <a href="{{ url_for('main.download_documento', id=doc.id) }}" class="precatorio-btn-download">
+              <i class="bi bi-download"></i> Baixar
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
       {% else %}
-      <p class="text-muted text-sm">Nenhum documento enviado ainda.</p>
+        <div class="precatorio-empty-state">
+          <i class="bi bi-inbox" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 1rem;"></i>
+          <p>Nenhum documento enviado ainda.</p>
+        </div>
       {% endif %}
 
-      <form method="POST" action="{{ url_for('main.upload_documento', id=precatorio.id) }}" enctype="multipart/form-data" class="mt-4">
-        <label class="block mb-2 text-sm font-medium">Enviar novo documento</label>
-        <input type="file" name="documentos" accept=".pdf,.png,.jpg,.jpeg" multiple required class="form-control mb-2">
-        <button type="submit" class="btn btn-primary">Enviar</button>
+      <form method="POST" action="{{ url_for('main.upload_documento', id=precatorio.id) }}" enctype="multipart/form-data" class="precatorio-upload-form">
+        <label class="precatorio-upload-label">
+          <i class="bi bi-cloud-upload"></i> Enviar novo documento
+        </label>
+        <input type="file" name="documentos" accept=".pdf,.png,.jpg,.jpeg" multiple required class="precatorio-file-input">
+        <button type="submit" class="precatorio-btn-upload">
+          <i class="bi bi-upload"></i> Enviar Documentos
+        </button>
       </form>
     </div>
-  </section>
 
-  <div class="px-4 py-6">
-    <a href="{{ request.referrer or url_for('main.dashboard') }}" class="bi bi-eye-circle">Voltar</a>
+    <a href="{{ request.referrer or url_for('main.dashboard') }}" class="precatorio-voltar-link">
+      <i class="bi bi-arrow-left"></i>&nbsp; Voltar
+    </a>
   </div>
 </div>
 {% endblock %}
+
