@@ -1,12 +1,93 @@
 <aside class="sidebar">
   <ul>
-    <li><a href="{{ url_for('main.dashboard') }}" class="{% if request.endpoint == 'main.dashboard' %}active{% endif %}">Painel de Controle</a></li>
-    <li><a href="{{ url_for('main.vender_precatorio') }}" class="{% if request.endpoint == 'main.vender_precatorio' %}active{% endif %}">Vender</a></li>
-    <li><a href="{{ url_for('main.comprar_precatorio') }}" class="{% if request.endpoint == 'main.comprar_precatorio' %}active{% endif %}">Comprar</a></li>
-    <li><a href="{{ url_for('main.mensagem_admin') }}" class="{% if request.endpoint == 'main.mensagem_admin' %}active{% endif %}">Fale com o Admin</a></li>
+    {% if current_user.is_authenticated %}
+      {% if current_user.tipo == 'administrador' %}
+        <!-- 1. Painel de Controle -->
+        <li>
+          <a href="{{ url_for('main.dashboard') }}"
+             class="{% if request.endpoint=='main.dashboard' %}active{% endif %}">
+            Painel de Controle
+            {% if forms_nao_respondidos > 0 %}
+              <span class="badge badge-notify">{{ forms_nao_respondidos }}</span>
+            {% endif %}
+          </a>
+        </li>
 
-    {% if current_user.tipo == 'administrador' %}
-    <li><a href="{{ url_for('main.painel_admin') }}" class="{% if request.endpoint == 'main.painel_admin' %}active{% endif %}">Painel Admin</a></li>
+        <!-- 2. Painel Admin -->
+        <li>
+          <a href="{{ url_for('admin.painel_admin') }}"
+             class="{% if request.endpoint=='admin.painel_admin' %}active{% endif %}">
+            Painel Admin
+          </a>
+        </li>
+
+        <!-- 3. Vender -->
+        <li>
+          <a href="{{ url_for('main.vender_precatorio') }}"
+             class="{% if request.endpoint=='main.vender_precatorio' %}active{% endif %}">
+            Vender
+            {% if novos_precatorios > 0 %}
+              <span class="badge badge-notify">{{ novos_precatorios }}</span>
+            {% endif %}
+          </a>
+        </li>
+
+        <!-- 4. Comprar -->
+        <li>
+          <a href="{{ url_for('main.comprar_precatorio') }}"
+             class="{% if request.endpoint=='main.comprar_precatorio' %}active{% endif %}">
+            Comprar
+          </a>
+        </li>
+
+        <!-- 5. Fale com o Admin -->
+        <li>
+          <a href="{{ url_for('main.mensagem_admin') }}"
+             class="{% if request.endpoint=='main.mensagem_admin' %}active{% endif %}">
+            Fale com o Admin
+          </a>
+        </li>
+
+        <!-- 6. Solicitações de Formulário -->
+        <li>
+          <a href="{{ url_for('admin.listar_solicitacoes') }}"
+             class="{% if request.endpoint=='admin.listar_solicitacoes' %}active{% endif %}">
+            Solicitações
+            {% if forms_nao_respondidos > 0 %}
+              <span class="badge badge-notify">{{ forms_nao_respondidos }}</span>
+            {% endif %}
+          </a>
+        </li>
+
+        <!-- 7. Mensagens -->
+        <li>
+          <a href="{{ url_for('admin.listar_mensagens') }}"
+             class="{% if request.endpoint=='admin.listar_mensagens' %}active{% endif %}">
+            Mensagens
+            {% if msgs_nao_lidas > 0 %}
+              <span class="badge badge-notify">{{ msgs_nao_lidas }}</span>
+            {% endif %}
+          </a>
+        </li>
+
+        <!-- 8. Gerenciar Usuários -->
+        <li>
+          <a href="{{ url_for('admin.listar_usuarios') }}"
+             class="{% if request.endpoint=='admin.listar_usuarios' %}active{% endif %}">
+            Gerenciar Usuários
+            {% if novos_usuarios > 0 %}
+              <span class="badge badge-notify">{{ novos_usuarios }}</span>
+            {% endif %}
+          </a>
+        </li>
+
+      {% else %}
+        <!-- Usuário comum -->
+        <li><a href="{{ url_for('main.dashboard') }}" class="{% if request.endpoint=='main.dashboard' %}active{% endif %}">Painel de Controle</a></li>
+        <li><a href="{{ url_for('main.vender_precatorio') }}" class="{% if request.endpoint=='main.vender_precatorio' %}active{% endif %}">Vender</a></li>
+        <li><a href="{{ url_for('main.comprar_precatorio') }}" class="{% if request.endpoint=='main.comprar_precatorio' %}active{% endif %}">Comprar</a></li>
+        <li><a href="{{ url_for('main.mensagem_admin') }}" class="{% if request.endpoint=='main.mensagem_admin' %}active{% endif %}">Fale com o Admin</a></li>
+      {% endif %}
     {% endif %}
   </ul>
 </aside>

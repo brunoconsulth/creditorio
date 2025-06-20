@@ -24,32 +24,40 @@
 
         <div class="form-group">
           <label>CPF ou CNPJ</label>
-          <input type="text" name="cpf_cnpj" id="cpf_cnpj" value="{% if current_user.is_authenticated %}{{ current_user.cpf_cnpj }}{% endif %}" readonly>
+          <input type="text" name="cpf_cnpj" id="cpf_cnpj"
+                 value="{{ current_user.cpf_cnpj if current_user.is_authenticated }}"
+                 readonly>
         </div>
 
         <div class="form-group">
           <label>Nome completo</label>
-          <input type="text" name="nome" value="{% if current_user.is_authenticated %}{{ current_user.nome }}{% endif %}" readonly>
+          <input type="text" name="nome"
+                 value="{{ current_user.nome if current_user.is_authenticated }}"
+                 readonly>
         </div>
 
         <div class="form-group">
           <label>Telefone</label>
-          <input type="text" name="telefone" id="telefone" value="{% if current_user.is_authenticated %}{{ current_user.telefone }}{% endif %}" readonly>
+          <input type="text" name="telefone" id="telefone"
+                 value="{{ current_user.telefone if current_user.is_authenticated }}"
+                 readonly>
         </div>
 
         <div class="form-group">
           <label>Email</label>
-          <input type="email" name="email" value="{% if current_user.is_authenticated %}{{ current_user.email }}{% endif %}" readonly>
+          <input type="email" name="email"
+                 value="{{ current_user.email if current_user.is_authenticated }}"
+                 readonly>
         </div>
 
-        <div class="form-group" id="grupo-estado" style="display: none;">
+        <div class="form-group" id="grupo-estado" style="display:none;">
           <label>Estado</label>
           <select id="estado" name="estado" onchange="carregarMunicipios()">
             <option value="">Carregando estados...</option>
           </select>
         </div>
 
-        <div class="form-group" id="grupo-municipio" style="display: none;">
+        <div class="form-group" id="grupo-municipio" style="display:none;">
           <label>Município</label>
           <select id="municipio" name="municipio">
             <option value="">Selecione o estado primeiro</option>
@@ -57,54 +65,45 @@
         </div>
 
         <div class="form-group">
-          <label>Valor (R$)</label>
-          <input type="text" name="valor" id="valor" required>
+          <label>Valor pretendido (R$)</label>
+          <input type="text" name="valor" id="valor" required placeholder="R$ 0,00">
         </div>
 
         <div class="form-group">
           <label>Mensagem (opcional)</label>
           <textarea name="mensagem" rows="4"></textarea>
         </div>
-            <div class="form-button-container">
-              <button type="submit" class="btn-dark-theme accent">Cadastrar Interesse</button>
-            </div>
+
+        <div class="form-button-container">
+          <button type="submit" class="btn-dark-theme accent">
+            Cadastrar Interesse
+          </button>
+        </div>
       </form>
     </div>
   </section>
 </div>
 
+<script src="https://unpkg.com/imask"></script>
 <script>
   function atualizarCampos() {
     const tipo = document.getElementById('tipo').value;
-    document.getElementById('grupo-estado').style.display = ['Estadual', 'Municipal'].includes(tipo) ? 'block' : 'none';
-    document.getElementById('grupo-municipio').style.display = tipo === 'Municipal' ? 'block' : 'none';
+    document.getElementById('grupo-estado').style.display =
+      ['Estadual', 'Municipal'].includes(tipo) ? 'block' : 'none';
+    document.getElementById('grupo-municipio').style.display =
+      tipo === 'Municipal' ? 'block' : 'none';
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", () => {
     fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome')
       .then(res => res.json())
       .then(estados => {
-        const estadoSelect = document.getElementById('estado');
-        estadoSelect.innerHTML = '<option value="">Selecione o estado</option>';
-        estados.forEach(estado => {
-          const opt = document.createElement('option');
-          opt.value = estado.sigla;
-          opt.textContent = estado.nome;
-          estadoSelect.appendChild(opt);
+        const sel = document.getElementById('estado');
+        sel.innerHTML = '<option value="">Selecione o estado</option>';
+        estados.forEach(e => {
+          sel.add(new Option(e.nome, e.sigla));
         });
       });
-
-    // Mascaras
-    IMask(document.getElementById('cpf_cnpj'), {
-      mask: [
-        { mask: '000.000.000-00' },
-        { mask: '00.000.000/0000-00' }
-      ]
-    });
-
-    IMask(document.getElementById('telefone'), {
-      mask: '(00) 00000-0000'
-    });
 
     IMask(document.getElementById('valor'), {
       mask: 'R$ num',
@@ -117,25 +116,27 @@
         }
       }
     });
+    IMask(document.getElementById('cpf_cnpj'), {
+      mask: [
+        { mask: '000.000.000-00' },
+        { mask: '00.000.000/0000-00' }
+      ]
+    });
+    IMask(document.getElementById('telefone'), {
+      mask: '(00) 00000-0000'
+    });
   });
 
   function carregarMunicipios() {
     const uf = document.getElementById('estado').value;
-    const municipioSelect = document.getElementById('municipio');
-    municipioSelect.innerHTML = '<option value="">Carregando municípios...</option>';
-
+    const selMun = document.getElementById('municipio');
+    selMun.innerHTML = '<option value="">Carregando municípios...</option>';
     fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`)
       .then(res => res.json())
-      .then(municipios => {
-        municipioSelect.innerHTML = '<option value="">Selecione o município</option>';
-        municipios.forEach(mun => {
-          const opt = document.createElement('option');
-          opt.value = mun.nome;
-          opt.textContent = mun.nome;
-          municipioSelect.appendChild(opt);
-        });
+      .then(muns => {
+        selMun.innerHTML = '<option value="">Selecione o município</option>';
+        muns.forEach(m => selMun.add(new Option(m.nome, m.nome)));
       });
   }
 </script>
-<script src="https://unpkg.com/imask"></script>
 {% endblock %}

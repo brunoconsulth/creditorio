@@ -39,6 +39,9 @@ class Usuario(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         return s.dumps({'usuario_id': self.id})
 
+    def is_active(self):
+        return self.ativo
+
     @staticmethod
     def verificar_token_redefinicao(token, expires_sec=3600):
         s = Serializer(current_app.config['SECRET_KEY'])
